@@ -1,0 +1,21 @@
+
+# CLI tool, only in development environment.
+# https://goframe.org/docs/cli
+gfcli:
+  build:
+    name: "with-you"
+    arch: "amd64"
+    system: "linux"
+    mode: "none"
+    version: "v1.0.1"
+    path: "./bin"
+  gen:
+    dao:
+      - link: "mysql:root:123456@tcp(192.168.10.4:13306)/go-dora-api"
+        descriptionTag: true
+        tables:   "sys_manager_role"
+
+  docker:
+    build: "-a amd64 -s linux -p temp -ew"
+    tagPrefixes:
+      - my.image.pub/my-app
