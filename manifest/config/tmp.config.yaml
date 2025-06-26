@@ -27,3 +27,17 @@ jwt:
   secret: "your-secret-key"
   ttl: 7200
   refresh_ttl: 14400
+
+redis:
+  mode: "single"
+  addrs:
+    - "127.0.0.1:6379"
+  username: ""
+  password: ""
+  db: 0
+  dialTimeout: 5s
+  readTimeout: 1s
+  writeTimeout: 1s
+  pingInterval: 10s
+  enableMetrics: false
+  enableLogging: true
