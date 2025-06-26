@@ -1,0 +1,29 @@
+# https://goframe.org/docs/web/server-config-file-template
+server:
+  address:     ":4545"
+  openapiPath: "/api.json"
+  develop: true
+
+# https://goframe.org/docs/core/glog-config
+logger:
+  level : "all"
+  stdout: true
+
+# https://goframe.org/docs/core/gdb-config-file
+database:
+  default:
+    debug: true
+    host: "192.168.10.4"
+    port: "13306"
+    user: "root"
+    pass: "123456"
+    name: "go-dora-api"
+    type: "mysql"
+    extra: "charset=utf8mb4&parseTime=True&loc=Local"
+    maxIdle: 100
+    maxOpen: 100
+
+jwt:
+  secret: "your-secret-key"
+  ttl: 7200
+  refresh_ttl: 14400

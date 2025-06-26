@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:26:20
- * @LastEditTime: 2025-06-26 17:23:09
+ * @LastEditTime: 2025-06-26 19:26:24
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/cmd/cmd.go
  */
@@ -58,6 +58,9 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			// 设置语言
 			languageSetting()
+
+			// 初始化定时任务
+			service.Crontab().InitData(ctx)
 
 			s := g.Server()
 			s.SetServerRoot(".")                           // 设置静态文件目录
