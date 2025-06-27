@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:26:20
- * @LastEditTime: 2025-06-26 21:07:00
+ * @LastEditTime: 2025-06-27 11:40:49
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/cmd/cmd.go
  */
@@ -86,6 +86,11 @@ var (
 						r.Response.Write(swaggerUIPageContent)
 					})
 				}
+
+				group.GET("/ws", func(r *ghttp.Request) {
+					service.WebSocket().HandleWsConnection(r.Response.Writer, r.Request)
+				})
+
 				// 设置语言
 				group.Middleware(func(r *ghttp.Request) {
 					lang := consts.LANG_EN

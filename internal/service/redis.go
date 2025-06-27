@@ -11,6 +11,7 @@ import (
 
 type (
 	IRedis interface {
+		// 获取redis客户端
 		GetClient() redis.UniversalClient
 	}
 )

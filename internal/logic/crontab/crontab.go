@@ -2,12 +2,10 @@ package crontab
 
 import (
 	"context"
-	"fmt"
 	"go-dora-api/internal/model"
 	"go-dora-api/internal/service"
 
 	"github.com/gogf/gf/v2/os/gcron"
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 type (
@@ -33,7 +31,7 @@ func (s *sCrontab) InitData(ctx context.Context) error {
 	// 添加一个每秒执行一次的任务
 	_, err := s.cronObj.AddSingleton(ctx, "0/1 * * * * *", func(ctx context.Context) {
 		// 打印当前时间
-		fmt.Println(gtime.Now().Format("Y-m-d H:i:s.u"))
+		// fmt.Println(gtime.Now().Format("Y-m-d H:i:s.u"))
 	}, "SecondsTimer")
 	// 如果添加任务失败，则返回错误
 	if err != nil {

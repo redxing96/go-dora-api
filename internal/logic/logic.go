@@ -13,4 +13,5 @@ import (
 	_ "go-dora-api/internal/logic/sys_menu"
 	_ "go-dora-api/internal/logic/sys_role"
 	_ "go-dora-api/internal/logic/translate"
+	_ "go-dora-api/internal/logic/websocket"
 )
