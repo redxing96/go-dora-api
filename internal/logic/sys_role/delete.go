@@ -2,7 +2,7 @@
  * @Description: 删除角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 22:22:32
- * @LastEditTime: 2025-06-25 22:33:58
+ * @LastEditTime: 2025-07-01 20:09:27
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_role/delete.go
  */
@@ -36,6 +36,9 @@ func (s *sSysRole) Delete(ctx context.Context, in *model.SysRoleDeleteInput) (ou
 		err = gerror.NewCode(common_return.ErrorCode("", "delete_role_failed", 500))
 		return
 	}
+
+	// 删除角色菜单
+	dao.SysRoleMenu.Ctx(ctx).WhereIn(dao.SysRoleMenu.Columns().RoleId, in.Ids).Delete()
 
 	// 构造返回结果
 	out = &model.SysRoleDeleteOutput{
