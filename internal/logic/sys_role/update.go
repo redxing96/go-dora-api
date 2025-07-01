@@ -2,7 +2,7 @@
  * @Description: 更新角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 22:25:31
- * @LastEditTime: 2025-06-25 22:28:10
+ * @LastEditTime: 2025-07-01 19:55:52
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_role/update.go
  */
@@ -26,6 +26,7 @@ func (s *sSysRole) Update(ctx context.Context, in *model.SysRoleUpdateInput) (ou
 		RoleName: in.RoleName,
 		RoleDesc: in.RoleDesc,
 		Status:   in.Status,
+		RoleCode: in.RoleCode,
 	}).Update()
 	if err != nil {
 		// 记录错误日志
@@ -43,6 +44,16 @@ func (s *sSysRole) Update(ctx context.Context, in *model.SysRoleUpdateInput) (ou
 		// 返回错误信息
 		err = gerror.NewCode(common_return.ErrorCode("", "update_role_failed", 500))
 		return
+	}
+
+	// 删除角色菜单
+	dao.SysRoleMenu.Ctx(ctx).Where(dao.SysRoleMenu.Columns().RoleId, in.Id).Delete()
+	// 添加角色菜单
+	for _, v := range in.MenuIds {
+		dao.SysRoleMenu.Ctx(ctx).Data(do.SysRoleMenu{
+			RoleId: in.Id,
+			MenuId: v,
+		}).Insert()
 	}
 
 	// 构造返回结果

@@ -22,6 +22,7 @@ type SysRoleDao struct {
 type SysRoleColumns struct {
 	Id         string // 角色ID
 	RoleName   string // 角色名称
+	RoleCode   string // 角色编码
 	RoleDesc   string // 角色描述
 	Status     string // 状态(1正常,0禁用)
 	CreateTime string // 创建时间
@@ -31,6 +32,7 @@ type SysRoleColumns struct {
 var sysRoleColumns = SysRoleColumns{
 	Id:         "id",
 	RoleName:   "role_name",
+	RoleCode:   "role_code",
 	RoleDesc:   "role_desc",
 	Status:     "status",
 	CreateTime: "create_time",

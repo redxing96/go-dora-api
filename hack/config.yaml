@@ -13,7 +13,7 @@ gfcli:
     dao:
       - link: "mysql:root:123456@tcp(192.168.10.89:13306)/go-dora-api"
         descriptionTag: true
-        tables:   "sys_menu"
+        tables:   "sys_role"
 
   docker:
     build: "-a amd64 -s linux -p temp -ew"

@@ -14,6 +14,7 @@ type SysRole struct {
 	g.Meta     `orm:"table:sys_role, do:true"`
 	Id         interface{} // 角色ID
 	RoleName   interface{} // 角色名称
+	RoleCode   interface{} // 角色编码
 	RoleDesc   interface{} // 角色描述
 	Status     interface{} // 状态(1正常,0禁用)
 	CreateTime *gtime.Time // 创建时间

@@ -21,6 +21,7 @@ type (
 		Delete(ctx context.Context, in *model.SysRoleDeleteInput) (out *model.SysRoleDeleteOutput, err error)
 		// 获取管理员角色ID
 		GetManagerRoleIDs(ctx context.Context, managerID int64) (roleIDs []int64, err error)
+		GetMenu(ctx context.Context, roleIDs []int64, menuType []int) (menuList []*entity.SysMenu, err error)
 		// 根据角色ID获取菜单ID
 		GetRoleMenuIDs(ctx context.Context, roleIDs []int64) (menuIds []int64, err error)
 		// 根据传入的上下文和参数，获取角色列表

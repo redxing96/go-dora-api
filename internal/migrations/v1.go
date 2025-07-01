@@ -2,7 +2,7 @@
  * @Description: 迁移v1版本
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 20:08:22
- * @LastEditTime: 2025-07-01 16:25:06
+ * @LastEditTime: 2025-07-01 20:07:39
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/migrations/v1.go
  */
@@ -104,6 +104,7 @@ func (m *migration) migrateV1() []*migrate.Migration {
 						id bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID',
 						role_name varchar(50) NOT NULL COMMENT '角色名称',
 						role_desc varchar(255) NOT NULL COMMENT '角色描述',
+						role_code varchar(50) NOT NULL COMMENT '角色编码',
 						status tinyint NOT NULL DEFAULT '1' COMMENT '状态(1正常,0禁用)',
 						create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 						PRIMARY KEY (id)

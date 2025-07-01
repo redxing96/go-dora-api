@@ -2,7 +2,7 @@
  * @Description: 添加角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 22:19:01
- * @LastEditTime: 2025-06-25 22:27:27
+ * @LastEditTime: 2025-07-01 19:54:36
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_role/add.go
  */
@@ -27,6 +27,7 @@ func (s *sSysRole) Add(ctx context.Context, in *model.SysRoleAddInput) (out *mod
 		RoleName:   in.RoleName,
 		RoleDesc:   in.RoleDesc,
 		Status:     in.Status,
+		RoleCode:   in.RoleCode,
 		CreateTime: gtime.Now(),
 	}).InsertAndGetId()
 	// 如果插入失败，记录错误日志，并返回错误信息
@@ -35,6 +36,15 @@ func (s *sSysRole) Add(ctx context.Context, in *model.SysRoleAddInput) (out *mod
 		err = gerror.NewCode(common_return.ErrorCode("", "add_role_failed", 500))
 		return
 	}
+
+	// 添加角色菜单，批量添加
+	for _, v := range in.MenuIds {
+		dao.SysRoleMenu.Ctx(ctx).Data(do.SysRoleMenu{
+			RoleId: id,
+			MenuId: v,
+		}).Insert()
+	}
+
 	// 如果插入成功，将id赋值给out的Id字段
 	out = &model.SysRoleAddOutput{
 		Id: int(id),

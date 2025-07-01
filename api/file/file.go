@@ -7,7 +7,7 @@ package file
 import (
 	"context"
 
-	v1 "go-dora-api/api/file/v1"
+	"go-dora-api/api/file/v1"
 )
 
 type IFileV1 interface {
