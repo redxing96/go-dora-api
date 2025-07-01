@@ -23,6 +23,9 @@ type ManageColumns struct {
 	Id         string //
 	Account    string // 用户账号
 	Password   string // 用户密码
+	Email      string // 电子邮箱
+	Phone      string // 电话号码
+	Avatar     string // 头像
 	Status     string // 状态 0-初始化 1-正常 2-冻结
 	IsSuper    string // 是否超管 1-是
 	CreateTime string // 创建时间
@@ -34,6 +37,9 @@ var manageColumns = ManageColumns{
 	Id:         "id",
 	Account:    "account",
 	Password:   "password",
+	Email:      "email",
+	Phone:      "phone",
+	Avatar:     "avatar",
 	Status:     "status",
 	IsSuper:    "is_super",
 	CreateTime: "create_time",

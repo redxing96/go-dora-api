@@ -14,6 +14,10 @@ type (
 	IManage interface {
 		// 根据账户获取管理员详情
 		GetManageDetailToAccount(ctx context.Context, in *model.GetManageDetailInput) (res *model.GetManageDetailOutput, err error)
+		// 根据管理员ID获取管理员详情
+		GetManageDetailToId(ctx context.Context, in *model.GetManageDetailInput) (res *model.GetManageDetailOutput, err error)
+		// 更新管理员信息
+		Update(ctx context.Context, in *model.UpdateInput) (res *model.UpdateOutput, err error)
 	}
 )
 

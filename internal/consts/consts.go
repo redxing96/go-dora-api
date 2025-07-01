@@ -2,7 +2,7 @@
  * @Description: 常量
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:26:20
- * @LastEditTime: 2025-06-25 11:01:03
+ * @LastEditTime: 2025-06-29 12:25:33
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/consts/consts.go
  */
@@ -27,4 +27,10 @@ var (
 	// 分页默认配置
 	DEFAULT_PAGE      = 20
 	DEFAULT_PAGE_SIZE = 10
+
+	// 上传文件路径
+	UPLOADS_PATH = "resource/public/uploads/file"
+
+	// 基础URL
+	BaseUri = "http://localhost:8080"
 )

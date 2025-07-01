@@ -2,7 +2,7 @@
  * @Description: 权限缓存服务
  * @Author: redxing96@163.com
  * @Date: 2025-06-26 13:03:18
- * @LastEditTime: 2025-06-26 18:01:01
+ * @LastEditTime: 2025-06-29 13:12:11
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/permission_cache/permission_cache.go
  */
@@ -27,6 +27,7 @@ var whiteList = []string{
 	"/manage/v1/auth/login",
 	"/manage/v1/auth/logout",
 	"/manage/v1/menu/get_auth_menu",
+	"/manage/v1/manager/self",
 }
 
 // sPermissionCache 权限缓存服务实现

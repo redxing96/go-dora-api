@@ -77,3 +77,28 @@ type MenuUpdateInput struct {
 type MenuUpdateOutput struct {
 	Id int `json:"id" dc:"路由权限ID"`
 }
+
+type MenuAddInput struct {
+	Pid           int
+	Type          int
+	Path          string
+	Sort          int
+	Component     string
+	Title         string
+	Icon          string
+	Hidden        int
+	KeepAlive     int
+	ActiveMenu    string
+	AlwaysShow    int
+	IsLargeScreen int
+	IsFirstLevel  int
+	IsSecondLevel int
+	NoRedirect    int
+	IsLink        int
+	Remark        string
+	Status        int
+}
+
+type MenuAddOutput struct {
+	Id int64 `json:"id" dc:"菜单ID"`
+}

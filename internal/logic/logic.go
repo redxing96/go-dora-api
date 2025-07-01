@@ -7,6 +7,7 @@ package logic
 import (
 	_ "go-dora-api/internal/logic/crontab"
 	_ "go-dora-api/internal/logic/manage"
+	_ "go-dora-api/internal/logic/media"
 	_ "go-dora-api/internal/logic/middleware"
 	_ "go-dora-api/internal/logic/permission_cache"
 	_ "go-dora-api/internal/logic/redis"

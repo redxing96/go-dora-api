@@ -2,7 +2,7 @@
  * @Description: 迁移v1版本
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 20:08:22
- * @LastEditTime: 2025-06-26 10:59:01
+ * @LastEditTime: 2025-06-30 14:32:40
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/migrations/v1.go
  */
@@ -23,16 +23,19 @@ func (m *migration) migrateV1() []*migrate.Migration {
 			Description: "创建管理员列表",
 			Up: func(tx *sql.Tx) error {
 				_, err := tx.Exec(`
-					CREATE TABLE manage (
-						id int NOT NULL AUTO_INCREMENT,
+					 CREATE TABLE manage (
+						id int(11) NOT NULL AUTO_INCREMENT,
 						account varchar(255) NOT NULL COMMENT '用户账号',
 						password varchar(255) NOT NULL COMMENT '用户密码',
-						status tinyint NOT NULL DEFAULT '0' COMMENT '状态 0-初始化 1-正常 2-冻结',
-						is_super tinyint NOT NULL DEFAULT '0' COMMENT '是否超管 1-是',
+						email varchar(255) DEFAULT NULL COMMENT '电子邮箱',
+						phone varchar(255) DEFAULT NULL COMMENT '电话号码',
+						avatar varchar(255) DEFAULT NULL COMMENT '头像',
+						status tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0-初始化 1-正常 2-冻结',
+						is_super tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否超管 1-是',
 						create_time datetime NOT NULL COMMENT '创建时间',
 						update_time datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
 						PRIMARY KEY (id)
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='管理员列表';
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员列表';
 				`)
 				return err
 			},
@@ -46,7 +49,7 @@ func (m *migration) migrateV1() []*migrate.Migration {
 			Description: "初始化管理员列表数据",
 			Up: func(tx *sql.Tx) error {
 				_, err := tx.Exec(`
-					INSERT INTO manage (id, account, password, status, is_super, create_time, update_time) VALUES (1, 'admin', '$2a$10$y6eCHHLBAjv/NdNUnZSAu.XemNWXevmO.Zj1j/NiBSuF.NtyFfSw6', 0, 1, '2025-06-24 19:49:51', NULL), (2, 'test', '$2a$10$y6eCHHLBAjv/NdNUnZSAu.XemNWXevmO.Zj1j/NiBSuF.NtyFfSw6', 0, 0, '2025-06-24 19:50:18', NULL);
+					INSERT INTO manage (id, account, password, email, phone, avatar, status, is_super, create_time, update_time) VALUES (1, 'admin', '$2a$10$y6eCHHLBAjv/NdNUnZSAu.XemNWXevmO.Zj1j/NiBSuF.NtyFfSw6', '', '', '', 0, 1, '2025-06-24 19:49:51', NULL), (2, 'test', '$2a$10$y6eCHHLBAjv/NdNUnZSAu.XemNWXevmO.Zj1j/NiBSuF.NtyFfSw6', '', '', '', 0, 0, '2025-06-24 19:50:18', NULL);
 				`)
 				return err
 			},
@@ -105,7 +108,7 @@ func (m *migration) migrateV1() []*migrate.Migration {
 						role_desc varchar(255) NOT NULL COMMENT '角色描述',
 						status tinyint NOT NULL DEFAULT '1' COMMENT '状态(1正常,0禁用)',
 						create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-						PRIMARY KEY (id),
+						PRIMARY KEY (id)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 				`)
 				return err
@@ -154,6 +157,42 @@ func (m *migration) migrateV1() []*migrate.Migration {
 			},
 			Down: func(tx *sql.Tx) error {
 				_, err := tx.Exec(`DROP TABLE IF EXISTS sys_role_menu;`)
+				return err
+			},
+		},
+		{
+			Name:        "20250629123100_create_media_table",
+			Description: "创建媒体表",
+			Up: func(tx *sql.Tx) error {
+				_, err := tx.Exec(`
+					CREATE TABLE media (
+						id int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+						file_name varchar(255) NOT NULL COMMENT '文件名',
+						original_name varchar(255) NOT NULL COMMENT '原始文件名',
+						file_path varchar(500) NOT NULL COMMENT '文件路径',
+						file_url varchar(500) NOT NULL COMMENT '文件访问URL',
+						file_size bigint(20) NOT NULL COMMENT '文件大小(字节)',
+						file_type varchar(100) NOT NULL COMMENT '文件类型',
+						mime_type varchar(100) NOT NULL COMMENT 'MIME类型',
+						md5_hash varchar(64) NOT NULL COMMENT '文件MD5哈希',
+						sha1_hash varchar(64) NOT NULL COMMENT '文件SHA1哈希',
+						uploader_id int(11) NOT NULL COMMENT '上传者ID',
+						uploader_type varchar(50) NOT NULL COMMENT '上传者类型',
+						status tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态 0-待处理 1-正常 2-删除',
+						is_public tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否公开 0-私有 1-公开',
+						download_count int(11) NOT NULL DEFAULT '0' COMMENT '下载次数',
+						view_count int(11) NOT NULL DEFAULT '0' COMMENT '查看次数',
+						create_time datetime DEFAULT NULL COMMENT '创建时间',
+						update_time datetime DEFAULT NULL COMMENT '修改时间',
+						PRIMARY KEY (id),
+						KEY idx_uploader (uploader_id,uploader_type),
+						KEY idx_file_type (file_type)
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='媒体资源表'; 
+				`)
+				return err
+			},
+			Down: func(tx *sql.Tx) error {
+				_, err := tx.Exec(`DROP TABLE IF EXISTS media;`)
 				return err
 			},
 		},

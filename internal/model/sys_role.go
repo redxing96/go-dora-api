@@ -41,7 +41,8 @@ type SysRoleUpdateOutput struct {
 }
 
 type SysRoleAllInput struct {
-	Status int `json:"status" dc:"状态 1-正常 2-禁用"`
+	Status    int `json:"status" dc:"状态 1-正常 2-禁用"`
+	ManagerId int `json:"manager_id" dc:"管理员ID"`
 }
 
 type SysRoleAllRes struct {

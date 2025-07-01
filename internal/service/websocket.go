@@ -12,7 +12,9 @@ import (
 
 type (
 	IWebSocket interface {
+		// 处理WebSocket连接
 		HandleWsConnection(w http.ResponseWriter, r *http.Request)
+		// 获取sWebSocket的server
 		GetServer() *websocket.EnhancedWsServer
 	}
 )

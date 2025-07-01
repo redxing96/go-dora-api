@@ -15,6 +15,9 @@ type Manage struct {
 	Id         interface{} //
 	Account    interface{} // 用户账号
 	Password   interface{} // 用户密码
+	Email      interface{} // 电子邮箱
+	Phone      interface{} // 电话号码
+	Avatar     interface{} // 头像
 	Status     interface{} // 状态 0-初始化 1-正常 2-冻结
 	IsSuper    interface{} // 是否超管 1-是
 	CreateTime *gtime.Time // 创建时间
