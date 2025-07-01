@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 17:05:49
- * @LastEditTime: 2025-06-23 17:23:24
+ * @LastEditTime: 2025-07-01 13:01:45
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/common_return/common_return.go
  */
@@ -27,12 +27,12 @@ type JsonResponse struct {
 
 // 成功返回
 func Success(data interface{}) gcode.Code {
-	return common_return.New(200, data, "success")
+	return common_return.New(20000, data, "success")
 }
 
 // 错误返回
 func Error(data interface{}, msg string, args ...interface{}) gcode.Code {
-	return common_return.New(500, data, msg, args...)
+	return common_return.New(50000, data, msg, args...)
 }
 
 // 错误码返回

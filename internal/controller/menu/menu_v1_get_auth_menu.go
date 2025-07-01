@@ -2,7 +2,7 @@
  * @Description: 获取菜单权限接口（根据token获取）
  * @Author: redxing96@163.com
  * @Date: 2025-06-26 17:50:44
- * @LastEditTime: 2025-06-26 18:00:55
+ * @LastEditTime: 2025-07-01 12:04:18
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/menu/menu_v1_get_auth_menu.go
  */
@@ -21,7 +21,7 @@ import (
 func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) (res *v1.GetAuthMenuRes, err error) {
 
 	// 获取管理菜单
-	menuList, err := service.SysMenu().GetManageMenu(ctx, cast.ToInt64(ctx.Value("manager_id")), 1)
+	menuList, err := service.SysMenu().GetManageMenu(ctx, cast.ToInt64(ctx.Value("manager_id")), []int{1, 4})
 	if err != nil {
 		return nil, err
 	}

@@ -25,6 +25,9 @@ type (
 		MiddlewareHandlerResponse(r *ghttp.Request)
 		// MiddlewarePermission 函数用于检查用户是否有权限访问某个路径
 		MiddlewarePermission(r *ghttp.Request)
+		// 限流中间件
+		// RateLimitMiddleware 函数用于限制请求的速率
+		RateLimitMiddleware(r *ghttp.Request)
 	}
 )
 

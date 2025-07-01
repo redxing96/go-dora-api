@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 12:06:47
- * @LastEditTime: 2025-06-25 12:17:30
+ * @LastEditTime: 2025-07-01 16:20:20
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/menu/menu_v1_menu_add.go
  */
@@ -21,21 +21,19 @@ func (c *ControllerV1) MenuAdd(ctx context.Context, req *v1.MenuAddReq) (res *v1
 	// 调用 service.SysMenu().Add 方法添加菜单
 	result, err := service.SysMenu().Add(ctx, &model.MenuAddInput{
 		Pid:           req.Pid,           // 父级ID
+		Name:          req.Name,          // 名称
 		Type:          req.Type,          // 类型
 		Path:          req.Path,          // 路径
 		Sort:          req.Sort,          // 排序
 		Component:     req.Component,     // 组件
 		Title:         req.Title,         // 标题
 		Icon:          req.Icon,          // 图标
-		Hidden:        req.Hidden,        // 是否隐藏
-		KeepAlive:     req.KeepAlive,     // 是否缓存
+		IconSvg:       req.IconSvg,       // 图标svg
+		IsHidden:      req.IsHidden,      // 是否隐藏
+		IsKeepAlive:   req.IsKeepAlive,   // 是否缓存
 		ActiveMenu:    req.ActiveMenu,    // 激活菜单
-		AlwaysShow:    req.AlwaysShow,    // 是否总是显示
 		IsLargeScreen: req.IsLargeScreen, // 是否大屏幕
-		IsFirstLevel:  req.IsFirstLevel,  // 是否第一级
-		IsSecondLevel: req.IsSecondLevel, // 是否第二级
-		NoRedirect:    req.NoRedirect,    // 是否重定向
-		IsLink:        req.IsLink,        // 是否链接
+		Link:          req.Link,          // 是否链接
 		Remark:        req.Remark,        // 备注
 		Status:        req.Status,        // 状态
 	})
@@ -45,7 +43,8 @@ func (c *ControllerV1) MenuAdd(ctx context.Context, req *v1.MenuAddReq) (res *v1
 
 	// 创建 MenuAddResponse 对象
 	r := &model.MenuAddResponse{
-		Id: result.Id,
+		Id:   result.Id,
+		Name: req.Name,
 	}
 	// 创建 MenuAddRes 对象
 	resp := v1.MenuAddRes(r)

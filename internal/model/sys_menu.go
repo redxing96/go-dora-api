@@ -1,9 +1,17 @@
+/*
+ * @Description:
+ * @Author: redxing96@163.com
+ * @Date: 2025-06-25 10:26:14
+ * @LastEditTime: 2025-07-01 17:42:29
+ * @LastEditors: front end cabbage
+ * @FilePath: /go-dora-api/internal/model/sys_menu.go
+ */
 package model
 
 // 获取所有菜单输入
 type GetAllSysMenuInput struct {
 	BaseInput
-	Type int `json:"type" dc:"类型 1:菜单 2:接口 3:按钮"`
+	Type []int `json:"type" dc:"类型 1:菜单 2:接口 3:按钮 4:目录"`
 }
 
 // 获取所有菜单输出
@@ -15,7 +23,8 @@ type MenuAllResponse struct {
 }
 
 type MenuAddResponse struct {
-	Id int64 `json:"id" dc:"菜单ID"`
+	Id   int64  `json:"id" dc:"菜单ID"`
+	Name string `json:"name" dc:"名称"`
 }
 
 type MenuItem struct {
@@ -33,15 +42,13 @@ type MenuItem struct {
 type MenuItemMeta struct {
 	Title         string `json:"title" dc:"标题"`
 	Icon          string `json:"icon" dc:"图标"`
-	Hidden        bool   `json:"hidden" dc:"是否隐藏"`
-	KeepAlive     bool   `json:"keep_alive" dc:"是否缓存"`
+	IconSvg       string `json:"icon_svg" dc:"图标svg"`
+	Type          int    `json:"type" dc:"类型 1菜单,2接口,3按钮"`
+	IsHidden      bool   `json:"hidden" dc:"是否隐藏"`
+	IsKeepAlive   bool   `json:"keep_alive" dc:"是否缓存"`
 	ActiveMenu    string `json:"active_menu" dc:"激活菜单的path"`
-	AlwaysShow    bool   `json:"always_show" dc:"是否总是显示为父菜单"`
 	IsLargeScreen bool   `json:"is_large_screen" dc:"是否仅在大屏显示"`
-	IsFirstLevel  bool   `json:"is_first_level" dc:"是否是一级导航"`
-	IsSecondLevel bool   `json:"is_second_level" dc:"是否是二级导航"`
-	NoRedirect    bool   `json:"no_redirect" dc:"是否禁止重定向"`
-	IsLink        string `json:"is_link" dc:"是否是外部链接"`
+	Link          string `json:"is_link" dc:"是否是外部链接"`
 }
 
 type MenuDeleteInput struct {
@@ -61,15 +68,12 @@ type MenuUpdateInput struct {
 	Component     string `json:"component" dc:"组件"`
 	Title         string `json:"title" dc:"标题"`
 	Icon          string `json:"icon" dc:"图标"`
-	Hidden        int    `json:"hidden" dc:"是否隐藏 2:否 1:是"`
-	KeepAlive     int    `json:"keep_alive" dc:"是否缓存 2:否 1:是"`
+	IconSvg       string `json:"icon_svg" dc:"图标svg"`
+	IsHidden      int    `json:"hidden" dc:"是否隐藏 2:否 1:是"`
+	IsKeepAlive   int    `json:"keep_alive" dc:"是否缓存 2:否 1:是"`
 	ActiveMenu    string `json:"active_menu" dc:"激活菜单"`
-	AlwaysShow    int    `json:"always_show" dc:"总是显示 2:否 1:是"`
 	IsLargeScreen int    `json:"is_large_screen" dc:"是否大屏 2:否 1:是"`
-	IsFirstLevel  int    `json:"is_first_level" dc:"是否一级菜单 2:否 1:是"`
-	IsSecondLevel int    `json:"is_second_level" dc:"是否二级菜单 2:否 1:是"`
-	NoRedirect    int    `json:"no_redirect" dc:"是否重定向 2:否 1:是"`
-	IsLink        int    `json:"is_link" dc:"是否链接 2:否 1:是"`
+	Link          int    `json:"is_link" dc:"是否链接 2:否 1:是"`
 	Remark        string `json:"remark" dc:"备注"`
 	Status        int    `json:"status" dc:"状态 1-正常 2-禁用"`
 }
@@ -81,20 +85,18 @@ type MenuUpdateOutput struct {
 type MenuAddInput struct {
 	Pid           int
 	Type          int
+	Name          string
 	Path          string
 	Sort          int
 	Component     string
 	Title         string
 	Icon          string
-	Hidden        int
-	KeepAlive     int
+	IconSvg       string
+	IsHidden      int
+	IsKeepAlive   int
 	ActiveMenu    string
-	AlwaysShow    int
 	IsLargeScreen int
-	IsFirstLevel  int
-	IsSecondLevel int
-	NoRedirect    int
-	IsLink        int
+	Link          string
 	Remark        string
 	Status        int
 }

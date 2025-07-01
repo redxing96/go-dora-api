@@ -2,7 +2,7 @@
  * @Description: 迁移v1版本
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 20:08:22
- * @LastEditTime: 2025-06-30 14:32:40
+ * @LastEditTime: 2025-07-01 16:25:06
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/migrations/v1.go
  */
@@ -66,21 +66,19 @@ func (m *migration) migrateV1() []*migrate.Migration {
 					CREATE TABLE sys_menu (
 						id bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
 						pid bigint(20) DEFAULT NULL COMMENT '父菜单ID',
-						type tinyint(3) NOT NULL DEFAULT '1' COMMENT '权限类型(1菜单,2接口,3按钮)',
+						type tinyint(3) NOT NULL DEFAULT '1' COMMENT '权限类型(1菜单,2接口,3按钮,4目录)',
 						path varchar(255) DEFAULT NULL COMMENT '路由地址',
-						sort int(11) DEFAULT 0 COMMENT '排序',
+						sort int(11) DEFAULT '0' COMMENT '排序',
 						component varchar(255) DEFAULT NULL COMMENT '组件路径',
 						title varchar(50) DEFAULT NULL COMMENT '菜单标题',
+						name varchar(255) DEFAULT NULL COMMENT '菜单名称',
 						icon varchar(100) DEFAULT NULL COMMENT '图标类名',
-						hidden tinyint(1) DEFAULT 0 COMMENT '是否隐藏(2-否,1-是)',
-						keep_alive tinyint(1) DEFAULT 0 COMMENT '是否缓存(2-否,1-是)',
+						icon_svg varchar(255) DEFAULT NULL COMMENT 'svg图标',
+						is_hidden tinyint(1) DEFAULT '0' COMMENT '是否隐藏(2-否,1-是)',
+						is_keep_alive tinyint(1) DEFAULT '0' COMMENT '是否缓存(2-否,1-是)',
 						active_menu varchar(255) DEFAULT NULL COMMENT '激活菜单的path',
-						always_show tinyint(1) DEFAULT 0 COMMENT '是否总是显示为父菜单(2-否,1-是)',
-						is_large_screen tinyint(1) DEFAULT 0 COMMENT '是否仅在大屏显示(2-否,1-是)',
-						is_first_level tinyint(1) DEFAULT 0 COMMENT '是否是一级导航(2-否,1-是)',
-						is_second_level tinyint(1) DEFAULT 0 COMMENT '是否是二级导航(2-否,1-是)',
-						no_redirect tinyint(1) DEFAULT 0 COMMENT '是否禁止重定向(2-否,1-是)',
-						is_link tinyint(1) DEFAULT 0 COMMENT '是否是外部链接(2-否,1-是)',
+						is_large_screen tinyint(1) DEFAULT '0' COMMENT '是否仅在大屏显示(2-否,1-是)',
+						link varchar(255) DEFAULT '0' COMMENT '外部链接',
 						status tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态(1正常,2禁用)',
 						create_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 						update_time datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -88,7 +86,7 @@ func (m *migration) migrateV1() []*migrate.Migration {
 						PRIMARY KEY (id),
 						KEY idx_pid (pid),
 						KEY idx_path (path)
-					) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单表';   
+					) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统菜单表'; 
 				`)
 				return err
 			},

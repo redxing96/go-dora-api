@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: redxing96@163.com
+ * @Date: 2025-06-25 21:45:26
+ * @LastEditTime: 2025-07-01 12:14:34
+ * @LastEditors: front end cabbage
+ * @FilePath: /go-dora-api/internal/logic/sys_menu/update.go
+ */
 package sys_menu
 
 import (
@@ -23,15 +31,11 @@ func (s *sSysMenu) Update(ctx context.Context, in *model.MenuUpdateInput) (out *
 		Component:     in.Component,     // 组件
 		Title:         in.Title,         // 标题
 		Icon:          in.Icon,          // 图标
-		Hidden:        in.Hidden,        // 是否隐藏
-		KeepAlive:     in.KeepAlive,     // 是否缓存
+		IsHidden:      in.IsHidden,      // 是否隐藏
+		IsKeepAlive:   in.IsKeepAlive,   // 是否缓存
 		ActiveMenu:    in.ActiveMenu,    // 激活菜单
-		AlwaysShow:    in.AlwaysShow,    // 是否总是显示
 		IsLargeScreen: in.IsLargeScreen, // 是否大屏幕
-		IsFirstLevel:  in.IsFirstLevel,  // 是否第一级
-		IsSecondLevel: in.IsSecondLevel, // 是否第二级
-		NoRedirect:    in.NoRedirect,    // 是否重定向
-		IsLink:        in.IsLink,        // 是否链接
+		Link:          in.Link,          // 是否链接
 		Remark:        in.Remark,        // 备注
 		Status:        in.Status,        // 状态
 		UpdateTime:    gtime.Now(),      // 更新时间

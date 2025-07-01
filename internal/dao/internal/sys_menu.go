@@ -22,22 +22,20 @@ type SysMenuDao struct {
 type SysMenuColumns struct {
 	Id            string // 菜单ID
 	Pid           string // 父菜单ID
-	Type          string // 权限类型(1菜单,2接口,3按钮)
+	Type          string // 权限类型(1菜单,2接口,3按钮,4目录)
 	Path          string // 路由地址
 	Sort          string // 排序
 	Component     string // 组件路径
+	Name          string // 菜单名称
 	Title         string // 菜单标题
 	Icon          string // 图标类名
-	Hidden        string // 是否隐藏(2-否,1-是)
-	KeepAlive     string // 是否缓存(2-否,1-是)
+	IconSvg       string // svg图标
+	IsHidden      string // 是否隐藏(2-否,1-是)
+	IsKeepAlive   string // 是否缓存(2-否,1-是)
 	ActiveMenu    string // 激活菜单的path
-	AlwaysShow    string // 是否总是显示为父菜单(2-否,1-是)
 	IsLargeScreen string // 是否仅在大屏显示(2-否,1-是)
-	IsFirstLevel  string // 是否是一级导航(2-否,1-是)
-	IsSecondLevel string // 是否是二级导航(2-否,1-是)
-	NoRedirect    string // 是否禁止重定向(2-否,1-是)
-	IsLink        string // 是否是外部链接(2-否,1-是)
-	Status        string // 状态 1-正常 2-禁用
+	Link          string // 外部链接
+	Status        string // 状态(1正常,2禁用)
 	CreateTime    string // 创建时间
 	UpdateTime    string // 更新时间
 	Remark        string // 备注
@@ -51,17 +49,15 @@ var sysMenuColumns = SysMenuColumns{
 	Path:          "path",
 	Sort:          "sort",
 	Component:     "component",
+	Name:          "name",
 	Title:         "title",
 	Icon:          "icon",
-	Hidden:        "hidden",
-	KeepAlive:     "keep_alive",
+	IconSvg:       "icon_svg",
+	IsHidden:      "is_hidden",
+	IsKeepAlive:   "is_keep_alive",
 	ActiveMenu:    "active_menu",
-	AlwaysShow:    "always_show",
 	IsLargeScreen: "is_large_screen",
-	IsFirstLevel:  "is_first_level",
-	IsSecondLevel: "is_second_level",
-	NoRedirect:    "no_redirect",
-	IsLink:        "is_link",
+	Link:          "link",
 	Status:        "status",
 	CreateTime:    "create_time",
 	UpdateTime:    "update_time",

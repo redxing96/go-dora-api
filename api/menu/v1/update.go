@@ -2,7 +2,7 @@
  * @Description: 更新路由权限
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 21:36:08
- * @LastEditTime: 2025-06-25 21:36:16
+ * @LastEditTime: 2025-07-01 18:17:58
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/api/menu/v1/update.go
  */
@@ -19,20 +19,19 @@ type MenuUpdateReq struct {
 	Sort          int    `v:"required|integer" d:"0" json:"sort" dc:"排序"`
 	Component     string `d:"" json:"component" dc:"组件"`
 	Title         string `v:"required|length:1,100" d:"" json:"title" dc:"标题"`
+	Name          string `v:"required|length:1,100" d:"" json:"name" dc:"名称"`
 	Icon          string `d:"" json:"icon" dc:"图标"`
-	Hidden        int    `v:"required|integer" d:"0" json:"hidden" dc:"是否隐藏 2:否 1:是"`
-	KeepAlive     int    `v:"required|integer" d:"0" json:"keep_alive" dc:"是否缓存 2:否 1:是"`
-	ActiveMenu    string `v:"required|length:1,100" d:"" json:"active_menu" dc:"激活菜单"`
-	AlwaysShow    int    `v:"required|integer" d:"0" json:"always_show" dc:"总是显示 2:否 1:是"`
-	IsLargeScreen int    `v:"required|integer" d:"0" json:"is_large_screen" dc:"是否大屏 2:否 1:是"`
-	IsFirstLevel  int    `v:"required|integer" d:"0" json:"is_first_level" dc:"是否一级菜单 2:否 1:是"`
-	IsSecondLevel int    `v:"required|integer" d:"0" json:"is_second_level" dc:"是否二级菜单 2:否 1:是"`
-	NoRedirect    int    `v:"required|integer" d:"0" json:"no_redirect" dc:"是否重定向 2:否 1:是"`
-	IsLink        int    `v:"required|integer" d:"0" json:"is_link" dc:"是否链接 2:否 1:是"`
+	IconSvg       string `d:"" json:"icon_svg" dc:"图标svg"`
+	IsHidden      int    `d:"2" json:"is_hidden" dc:"是否隐藏 2:否 1:是"`
+	IsKeepAlive   int    `d:"2" json:"is_keep_alive" dc:"是否缓存 2:否 1:是"`
+	ActiveMenu    string `d:"" json:"active_menu" dc:"激活菜单"`
+	IsLargeScreen int    `d:"2" json:"is_large_screen" dc:"是否大屏 2:否 1:是"`
+	Link          int    `d:"" json:"link" dc:"是否链接 2:否 1:是"`
 	Remark        string `d:"" json:"remark" dc:"备注"`
 	Status        int    `v:"required|integer" d:"0" json:"status" dc:"状态 1-正常 2-禁用"`
 }
 
 type MenuUpdateRes struct {
-	Id int `json:"id" dc:"角色ID"`
+	Id   int    `json:"id" dc:"角色ID"`
+	Name string `json:"name" dc:"名称"`
 }

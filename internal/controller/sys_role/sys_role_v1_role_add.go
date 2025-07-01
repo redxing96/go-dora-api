@@ -2,7 +2,7 @@
  * @Description: 添加角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 22:34:34
- * @LastEditTime: 2025-06-25 22:34:51
+ * @LastEditTime: 2025-07-01 19:32:42
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/sys_role/sys_role_v1_role_add.go
  */
@@ -27,6 +27,12 @@ func (c *ControllerV1) RoleAdd(ctx context.Context, req *v1.RoleAddReq) (res *v1
 		// 如果添加角色失败，则返回错误
 		return nil, err
 	}
+
+	// 添加角色菜单
+	service.SysRoleMenu().Add(ctx, &model.SysRoleMenuAddInput{
+		RoleId:  result.Id,
+		MenuIds: req.MenuIds,
+	})
 
 	// 构造返回结果
 	resp := v1.RoleAddRes{

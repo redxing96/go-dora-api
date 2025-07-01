@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 10:57:51
- * @LastEditTime: 2025-06-26 17:55:28
+ * @LastEditTime: 2025-07-01 17:42:56
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/menu/menu_v1_menu_all_list.go
  */
@@ -20,7 +20,7 @@ import (
 func (c *ControllerV1) MenuAllList(ctx context.Context, req *v1.MenuAllListReq) (res *v1.MenuAllListRes, err error) {
 	// 创建获取所有菜单的输入参数
 	search := new(model.GetAllSysMenuInput)
-	search.Type = 1
+	search.Type = []int{1, 2, 3, 4}
 
 	// 调用服务获取所有菜单列表
 	list, _, err := service.SysMenu().GetAll(ctx, search)

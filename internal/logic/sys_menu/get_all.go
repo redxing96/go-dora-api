@@ -2,7 +2,7 @@
  * @Description: 获取所有菜单
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 10:25:04
- * @LastEditTime: 2025-06-25 13:23:10
+ * @LastEditTime: 2025-07-01 17:42:43
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_menu/get_all.go
  */
@@ -31,8 +31,8 @@ func (s *sSysMenu) GetAll(ctx context.Context, in *model.GetAllSysMenuInput) (re
 		query = query.Page(in.Page, in.PageSize)
 	}
 
-	if in.Type != 0 {
-		query = query.Where(dao.SysMenu.Columns().Type, in.Type)
+	if len(in.Type) > 0 {
+		query = query.WhereIn(dao.SysMenu.Columns().Type, in.Type)
 	}
 
 	query.Order(dao.SysMenu.Columns().Sort + " desc")

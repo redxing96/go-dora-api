@@ -20,7 +20,7 @@ type (
 		// 获取所有系统菜单
 		GetAll(ctx context.Context, in *model.GetAllSysMenuInput) (res []*entity.SysMenu, total int, err error)
 		// 获取管理员菜单
-		GetManageMenu(ctx context.Context, managerID int64, menuType int) (menuList []*entity.SysMenu, err error)
+		GetManageMenu(ctx context.Context, managerID int64, menuType []int) (menuList []*entity.SysMenu, err error)
 		// 将SysMenu列表转换为MenuItem列表
 		ConvertToMenuItems(sysMenus []*entity.SysMenu) []*model.MenuItem
 		// 构建菜单树

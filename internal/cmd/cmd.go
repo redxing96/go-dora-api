@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:26:20
- * @LastEditTime: 2025-06-30 12:08:03
+ * @LastEditTime: 2025-07-01 18:22:23
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/cmd/cmd.go
  */
@@ -10,6 +10,7 @@ package cmd
 
 import (
 	"context"
+	"strings"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -73,6 +74,23 @@ var (
 				s.EnablePProf()
 			}
 			s.Group("/", func(group *ghttp.RouterGroup) {
+				// 设置语言
+				group.Middleware(func(r *ghttp.Request) {
+					lang := consts.LANG_EN
+					if l := r.Header.Get("Lang"); l != "" {
+						lang = l
+					}
+
+					if strings.ToUpper(lang) == "ZH-CN" {
+						lang = consts.LANG_CN
+					}
+
+					// 设置语言
+					g.I18n().SetLanguage(lang)
+					r.SetCtxVar("lang", lang)
+					r.Middleware.Next()
+				})
+
 				// 添加跨域中间件
 				group.Middleware(service.Middleware().MiddlewareCORS)
 				// 添加全局响应中间件
@@ -81,6 +99,8 @@ var (
 				group.Middleware(service.Middleware().MiddlewareAccessLog)
 				// 添加全局捕获异常中间件
 				group.Middleware(service.Middleware().MiddlewareErrorHandler)
+				// 添加限流中间件
+				group.Middleware(service.Middleware().RateLimitMiddleware)
 				// 添加SwaggerUI路由
 				if develop.Bool() {
 					group.GET("/swagger", func(r *ghttp.Request) {
@@ -90,18 +110,6 @@ var (
 
 				group.GET("/ws", func(r *ghttp.Request) {
 					service.WebSocket().HandleWsConnection(r.Response.Writer, r.Request)
-				})
-
-				// 设置语言
-				group.Middleware(func(r *ghttp.Request) {
-					lang := consts.LANG_EN
-					if l := r.Header.Get("Lang"); l != "" {
-						lang = l
-					}
-					// 设置语言
-					g.I18n().SetLanguage(lang)
-					r.SetCtxVar("lang", lang)
-					r.Middleware.Next()
 				})
 
 				// 客户端接口

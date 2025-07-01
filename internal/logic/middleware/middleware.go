@@ -2,7 +2,7 @@
  * @Description: 中间件
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:37:26
- * @LastEditTime: 2025-06-29 22:20:38
+ * @LastEditTime: 2025-07-01 18:24:07
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/middleware/middleware.go
  */
@@ -16,6 +16,7 @@ import (
 	"go-dora-api/internal/logger"
 	"go-dora-api/internal/service"
 	"net/http"
+	"strings"
 
 	logger2 "go-dora-api/utility/logger"
 
@@ -141,6 +142,10 @@ func (s *sMiddleware) MiddlewareHandlerResponse(r *ghttp.Request) {
 		lang = r.Header.Get("lang")
 	)
 
+	if strings.ToUpper(lang) == "ZH-CN" {
+		lang = consts.LANG_CN
+	}
+
 	//多语言切换
 	switch lang {
 	case consts.LANG_CN, consts.LANG_EN:
@@ -207,6 +212,7 @@ func (s *sMiddleware) MiddlewareHandlerResponse(r *ghttp.Request) {
 	if errorDetail == nil {
 		errorDetail = ""
 	}
+	fmt.Println("响应编码：", errorCode)
 	// 返回响应
 	r.Response.WriteJson(common_return.DefaultJsonResponse(errorCode, errorMsg, errorDetail))
 }

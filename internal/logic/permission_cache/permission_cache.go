@@ -2,7 +2,7 @@
  * @Description: 权限缓存服务
  * @Author: redxing96@163.com
  * @Date: 2025-06-26 13:03:18
- * @LastEditTime: 2025-06-29 13:12:11
+ * @LastEditTime: 2025-07-01 12:04:37
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/permission_cache/permission_cache.go
  */
@@ -49,7 +49,7 @@ func init() {
 // LoadUserPermissions 方法用于加载用户权限
 func (s *sPermissionCache) LoadUserPermissions(ctx context.Context, managerID int64) (err error) {
 	// 调用 service.SysMenu().GetManageMenu 方法获取管理员菜单
-	menuList, err := service.SysMenu().GetManageMenu(ctx, managerID, 0)
+	menuList, err := service.SysMenu().GetManageMenu(ctx, managerID, []int{})
 	// 如果获取菜单失败，则记录错误日志，并返回错误
 	if err != nil {
 		logger.SystemLogger.Errorf("获取管理员菜单失败: %v", err)

@@ -1,8 +1,6 @@
 module go-dora-api
 
-go 1.22
-
-toolchain go1.23.0
+go 1.23.0
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
@@ -45,6 +43,7 @@ require (
 	golang.org/x/net v0.32.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/time v0.12.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

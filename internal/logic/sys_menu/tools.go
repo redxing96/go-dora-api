@@ -2,7 +2,7 @@
  * @Description: 菜单工具函数
  * @Author: redxing96@163.com
  * @Date: 2025-06-26 17:52:53
- * @LastEditTime: 2025-06-26 17:54:00
+ * @LastEditTime: 2025-07-01 18:07:49
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_menu/tools.go
  */
@@ -21,22 +21,19 @@ func (s *sSysMenu) ConvertToMenuItems(sysMenus []*entity.SysMenu) []*model.MenuI
 			Id:        sysMenu.Id,
 			Pid:       sysMenu.Pid,
 			Path:      sysMenu.Path,
-			Name:      sysMenu.Title,
+			Name:      sysMenu.Name,
 			Sort:      sysMenu.Sort,
 			Status:    sysMenu.Status,
 			Component: sysMenu.Component,
 			Meta: model.MenuItemMeta{
 				Title:         sysMenu.Title,
 				Icon:          sysMenu.Icon,
-				Hidden:        sysMenu.Hidden == 1,
-				KeepAlive:     sysMenu.KeepAlive == 1,
+				Type:          sysMenu.Type,
+				IsHidden:      sysMenu.IsHidden == 1,
+				IsKeepAlive:   sysMenu.IsKeepAlive == 1,
 				ActiveMenu:    sysMenu.ActiveMenu,
-				AlwaysShow:    sysMenu.AlwaysShow == 1,
 				IsLargeScreen: sysMenu.IsLargeScreen == 1,
-				IsFirstLevel:  sysMenu.IsFirstLevel == 1,
-				IsSecondLevel: sysMenu.IsSecondLevel == 1,
-				NoRedirect:    sysMenu.NoRedirect == 1,
-				IsLink:        sysMenu.IsLink,
+				Link:          sysMenu.Link,
 			},
 		}
 		menuItems = append(menuItems, menuItem)

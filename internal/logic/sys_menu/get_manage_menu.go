@@ -2,7 +2,7 @@
  * @Description: 获取管理员菜单
  * @Author: redxing96@163.com
  * @Date: 2025-06-26 13:10:32
- * @LastEditTime: 2025-06-26 18:00:30
+ * @LastEditTime: 2025-07-01 12:03:34
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_menu/get_manage_menu.go
  */
@@ -20,7 +20,7 @@ import (
 )
 
 // 获取管理员菜单
-func (s *sSysMenu) GetManageMenu(ctx context.Context, managerID int64, menuType int) (menuList []*entity.SysMenu, err error) {
+func (s *sSysMenu) GetManageMenu(ctx context.Context, managerID int64, menuType []int) (menuList []*entity.SysMenu, err error) {
 	// 根据用户ID获取到所有的角色IDs
 	roleIDs, err := service.SysRole().GetManagerRoleIDs(ctx, managerID)
 	if err != nil {
@@ -38,8 +38,8 @@ func (s *sSysMenu) GetManageMenu(ctx context.Context, managerID int64, menuType 
 	// 获取菜单
 	query := dao.SysMenu.Ctx(ctx).WhereIn(dao.SysMenu.Columns().Id, menuIDs)
 
-	if menuType != 0 {
-		query = query.Where(dao.SysMenu.Columns().Type, menuType)
+	if len(menuType) > 0 {
+		query = query.WhereIn(dao.SysMenu.Columns().Type, menuType)
 	}
 
 	err = query.Scan(&menuList)
