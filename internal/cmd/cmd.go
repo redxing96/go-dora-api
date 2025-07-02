@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-23 16:26:20
- * @LastEditTime: 2025-07-01 18:22:23
+ * @LastEditTime: 2025-07-02 10:05:44
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/cmd/cmd.go
  */
@@ -19,6 +19,7 @@ import (
 
 	"go-dora-api/internal/consts"
 	"go-dora-api/internal/controller/auth"
+	"go-dora-api/internal/controller/dictionary"
 	"go-dora-api/internal/controller/manager"
 	"go-dora-api/internal/controller/menu"
 	"go-dora-api/internal/controller/sys_role"
@@ -141,6 +142,7 @@ var (
 					sys_role.NewV1(),
 					auth.NewV1().Logout,
 					manager.NewV1(),
+					dictionary.NewV1(),
 				)
 			})
 			s.Run()

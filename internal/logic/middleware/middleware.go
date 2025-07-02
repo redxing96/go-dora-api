@@ -78,52 +78,87 @@ func (s *sMiddleware) MiddlewareAccessLog(r *ghttp.Request) {
 		stackContent = stack
 	}
 
+	// 日志写入文件
 	logger.SystemLogger.Info("route",
-		logger2.LogField{
-			Key:   "status",
-			Value: r.Response.Status,
-		},
-		logger2.LogField{
-			Key:   "method",
-			Value: r.Method,
-		},
-		logger2.LogField{
-			Key:   "scheme",
-			Value: scheme,
-		},
-		logger2.LogField{
-			Key:   "host",
-			Value: r.Host,
-		},
-		logger2.LogField{
-			Key:   "url",
-			Value: r.URL.String(),
-		},
-		logger2.LogField{
-			Key:   "proto",
-			Value: r.Proto,
-		},
-		logger2.LogField{
-			Key:   "duration",
-			Value: float64(endTime-startTime) / 1000,
-		},
-		logger2.LogField{
-			Key:   "ip",
-			Value: r.GetClientIp(),
-		},
-		logger2.LogField{
-			Key:   "referer",
-			Value: r.Referer(),
-		},
-		logger2.LogField{
-			Key:   "userAgent",
-			Value: r.UserAgent(),
-		},
-		logger2.LogField{
-			Key:   "stack",
-			Value: stackContent,
-		},
+		logger2.LogField{Key: "status", Value: r.Response.Status},
+		logger2.LogField{Key: "method", Value: r.Method},
+		logger2.LogField{Key: "scheme", Value: scheme},
+		logger2.LogField{Key: "host", Value: r.Host},
+		logger2.LogField{Key: "url", Value: r.URL.String()},
+		logger2.LogField{Key: "proto", Value: r.Proto},
+		logger2.LogField{Key: "duration", Value: float64(endTime-startTime) / 1000},
+		logger2.LogField{Key: "ip", Value: r.GetClientIp()},
+		logger2.LogField{Key: "referer", Value: r.Referer()},
+		logger2.LogField{Key: "userAgent", Value: r.UserAgent()},
+		logger2.LogField{Key: "stack", Value: stackContent},
 	)
+
+	// ====== 操作日志写入数据库 ======
+	// 获取用户信息（如有登录）
+	// userId := int64(0)
+	// username := "游客"
+	// if v := r.Session.MustGet("userId"); v != nil {
+	// 	userId = v.Int64()
+	// }
+	// if v := r.Session.MustGet("username"); v != nil {
+	// 	username = v.String()
+	// }
+
+	// // 操作类型
+	// operation := r.Method
+	// // 操作模块（可用路由前缀或首段）
+	// module := ""
+	// urlPath := r.URL.Path
+	// if urlPath != "" {
+	// 	parts := gstr.SplitAndTrim(urlPath, "/")
+	// 	if len(parts) > 1 {
+	// 		module = parts[1]
+	// 	} else if len(parts) == 1 {
+	// 		module = parts[0]
+	// 	}
+	// }
+	// // 操作描述
+	// description := r.Method + " " + r.URL.String()
+	// // 请求参数
+	// params := r.GetMap()
+	// // 响应内容
+	// response := r.Response.BufferString()
+	// // 状态
+	// status := 1
+	// if r.Response.Status >= 400 {
+	// 	status = 2
+	// }
+	// // 错误信息
+	// errMsg := ""
+	// if err != nil {
+	// 	errMsg = err.Error()
+	// }
+	// // 执行时间
+	// executionTime := int(endTime - startTime)
+
+	// // 组装请求信息
+	// requestInfo := map[string]interface{}{
+	// 	"method":    r.Method,
+	// 	"url":       r.URL.String(),
+	// 	"params":    params,
+	// 	"response":  response,
+	// 	"ip":        r.GetClientIp(),
+	// 	"userAgent": r.UserAgent(),
+	// }
+
+	// 写入操作日志表
+	// _ = service.OperationLog().RecordOperation(
+	// 	r.GetCtx(),
+	// 	userId,
+	// 	username,
+	// 	operation,
+	// 	module,
+	// 	description,
+	// 	status,
+	// 	errMsg,
+	// 	executionTime,
+	// 	requestInfo,
+	// )
 }
 
 // 全局响应中间件

@@ -1,3 +1,11 @@
+/*
+ * @Description: 管理员模型
+ * @Author: redxing96@163.com
+ * @Date: 2025-06-24 20:05:04
+ * @LastEditTime: 2025-07-02 10:09:17
+ * @LastEditors: front end cabbage
+ * @FilePath: /go-dora-api/internal/model/manage.go
+ */
 package model
 
 import (
@@ -52,4 +60,20 @@ type UpdateOutput struct {
 	Email   string `json:"email" dc:"电子邮箱"`
 	Phone   string `json:"phone" dc:"电话号码"`
 	Avatar  string `json:"avatar" dc:"头像"`
+}
+
+type ManagerAddInput struct {
+	Account  string `json:"account" dc:"管理员账号"`
+	Password string `json:"password" dc:"管理员密码"`
+	Email    string `json:"email" dc:"电子邮箱"`
+	Phone    string `json:"phone" dc:"电话号码"`
+	Avatar   string `json:"avatar" dc:"头像"`
+	Status   int    `json:"status" dc:"状态 0-初始化 1-正常 2-冻结"`
+	IsSuper  int    `json:"is_super" dc:"是否超级管理员 1-是 2-否"`
+	RoleIds  []int  `json:"role_ids" dc:"角色IDs"`
+}
+
+type ManagerAddOutput struct {
+	Id      int    `json:"id" dc:"管理员ID"`
+	Account string `json:"account" dc:"管理员账号"`
 }

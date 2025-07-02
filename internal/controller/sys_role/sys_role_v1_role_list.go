@@ -2,7 +2,7 @@
  * @Description: 获取角色列表
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 21:40:44
- * @LastEditTime: 2025-06-25 22:16:56
+ * @LastEditTime: 2025-07-01 20:48:15
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/sys_role/sys_role_v1_role_list.go
  */
@@ -46,8 +46,17 @@ func (c *ControllerV1) RoleList(ctx context.Context, req *v1.RoleListReq) (res *
 	// 创建一个 SysRoleListRes 结构体
 	r := new(model.SysRoleListRes)
 	// 将获取到的角色列表赋值给 r 结构体
-	r.List = result
-	// 将获取到的总数量赋值给 r 结构体
+	for _, item := range result {
+		r.List = append(r.List, &model.SysRoleItemOutput{
+			Id:         item.Id,
+			RoleName:   item.RoleName,
+			RoleCode:   item.RoleCode,
+			RoleDesc:   item.RoleDesc,
+			Status:     item.Status,
+			CreateTime: item.CreateTime,
+		})
+	}
+
 	r.Total = total
 	// 将 search 结构体中的页码赋值给 r 结构体
 	r.Page = search.Page

@@ -2,7 +2,7 @@
  * @Description: 添加角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 22:34:34
- * @LastEditTime: 2025-07-01 19:53:42
+ * @LastEditTime: 2025-07-01 20:55:59
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/sys_role/sys_role_v1_role_add.go
  */
@@ -19,11 +19,11 @@ import (
 func (c *ControllerV1) RoleAdd(ctx context.Context, req *v1.RoleAddReq) (res *v1.RoleAddRes, err error) {
 	// 调用 service.SysRole().Add 方法添加角色
 	result, err := service.SysRole().Add(ctx, &model.SysRoleAddInput{
-		RoleName: req.Name,    // 角色名称
-		RoleDesc: req.Desc,    // 角色描述
-		RoleCode: req.Code,    // 角色编码
-		Status:   req.Status,  // 角色状态
-		MenuIds:  req.MenuIds, // 菜单IDs
+		RoleName: req.RoleName, // 角色名称
+		RoleDesc: req.RoleDesc, // 角色描述
+		RoleCode: req.RoleCode, // 角色编码
+		Status:   req.Status,   // 角色状态
+		MenuIds:  req.MenuIds,  // 菜单IDs
 	})
 	if err != nil {
 		// 如果添加角色失败，则返回错误

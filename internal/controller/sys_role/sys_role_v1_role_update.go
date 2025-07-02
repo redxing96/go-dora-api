@@ -2,7 +2,7 @@
  * @Description: 更新角色
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 21:40:44
- * @LastEditTime: 2025-07-01 19:54:09
+ * @LastEditTime: 2025-07-01 20:56:05
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/sys_role/sys_role_v1_role_update.go
  */
@@ -20,12 +20,12 @@ import (
 func (c *ControllerV1) RoleUpdate(ctx context.Context, req *v1.RoleUpdateReq) (res *v1.RoleUpdateRes, err error) {
 	// 调用service.SysRole().Update方法更新角色信息
 	result, err := service.SysRole().Update(ctx, &model.SysRoleUpdateInput{
-		Id:       req.Id,      // 角色ID
-		RoleName: req.Name,    // 角色名称
-		RoleCode: req.Code,    // 角色编码
-		MenuIds:  req.MenuIds, // 菜单IDs
-		RoleDesc: req.Desc,    // 角色描述
-		Status:   req.Status,  // 角色状态
+		Id:       req.Id,       // 角色ID
+		RoleName: req.RoleName, // 角色名称
+		RoleCode: req.RoleCode, // 角色编码
+		MenuIds:  req.MenuIds,  // 菜单IDs
+		RoleDesc: req.RoleDesc, // 角色描述
+		Status:   req.Status,   // 角色状态
 	})
 	if err != nil {
 		// 如果更新失败，返回错误

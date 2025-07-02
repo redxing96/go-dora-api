@@ -3,7 +3,7 @@
 # https://goframe.org/docs/cli
 gfcli:
   build:
-    name: "with-you"
+    name: "go-dora-api"
     arch: "amd64"
     system: "linux"
     mode: "none"
@@ -13,7 +13,7 @@ gfcli:
     dao:
       - link: "mysql:root:123456@tcp(192.168.10.89:13306)/go-dora-api"
         descriptionTag: true
-        tables:   "sys_role"
+        tables:   "dictionary"
 
   docker:
     build: "-a amd64 -s linux -p temp -ew"
