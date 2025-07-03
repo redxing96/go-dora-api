@@ -20,10 +20,12 @@ import (
 	"go-dora-api/internal/consts"
 	"go-dora-api/internal/controller/auth"
 	"go-dora-api/internal/controller/dictionary"
+	"go-dora-api/internal/controller/file"
 	"go-dora-api/internal/controller/manager"
 	"go-dora-api/internal/controller/menu"
 	"go-dora-api/internal/controller/sys_role"
 	"go-dora-api/internal/service"
+	"go-dora-api/utility/common"
 )
 
 const (
@@ -66,7 +68,8 @@ var (
 			service.Crontab().InitData(ctx)
 
 			s := g.Server()
-			s.SetServerRoot(".")                           // 设置静态文件目录
+			s.SetServerRoot(".") // 设置静态文件目录
+			s.AddStaticPath("/files", common.GetAbsPath(consts.UPLOADS_PATH))
 			s.SetClientMaxBodySize(consts.Max_UPLOAD_SIZE) // 设置最大上传大小
 			openApiSetting(s.GetOpenApi())                 // 设置OpenAPI
 			// 设置开发模式
@@ -143,6 +146,7 @@ var (
 					auth.NewV1().Logout,
 					manager.NewV1(),
 					dictionary.NewV1(),
+					file.NewV1(),
 				)
 			})
 			s.Run()

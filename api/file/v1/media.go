@@ -17,11 +17,9 @@ import (
 
 // MediaUploadReq 媒体文件上传请求
 type MediaUploadReq struct {
-	g.Meta       `path:"/v1/media/upload" tags:"媒体文件" method:"post" mime:"multipart/form-data" summary:"上传媒体文件" security:"api_key"`
-	File         *ghttp.UploadFile `json:"file" type:"file" dc:"选择上传的文件" v:"required#请选择要上传的文件"`
-	UploaderId   int               `json:"uploaderId" dc:"上传者ID" v:"required#上传者ID不能为空"`
-	UploaderType string            `json:"uploaderType" dc:"上传者类型" v:"required#上传者类型不能为空"`
-	IsPublic     int               `json:"isPublic" dc:"是否公开 0-私有 1-公开" d:"0"`
+	g.Meta   `path:"/v1/media/upload" tags:"媒体文件" method:"post" mime:"multipart/form-data" summary:"上传媒体文件" security:"api_key"`
+	File     *ghttp.UploadFile `json:"file" type:"file" dc:"选择上传的文件" v:"required#请选择要上传的文件"`
+	IsPublic int               `json:"isPublic" dc:"是否公开 0-私有 1-公开" d:"0"`
 }
 
 // MediaUploadRes 媒体文件上传响应

@@ -27,10 +27,14 @@ import (
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/spf13/cast"
 )
 
 // MediaUpload 媒体文件上传（支持秒传）
 func (c *ControllerV1) MediaUpload(ctx context.Context, req *v1.MediaUploadReq) (res *v1.MediaUploadRes, err error) {
+
+	managerId := cast.ToInt(ctx.Value("manager_id"))
+
 	// 验证文件
 	if req.File == nil {
 		err = gerror.NewCode(common_return.ErrorCode("", "file_required", 400))
@@ -103,8 +107,8 @@ func (c *ControllerV1) MediaUpload(ctx context.Context, req *v1.MediaUploadReq) 
 		MimeType:     mimeType,
 		Md5Hash:      md5Hash,
 		Sha1Hash:     "", // 将在服务层计算
-		UploaderId:   req.UploaderId,
-		UploaderType: req.UploaderType,
+		UploaderId:   managerId,
+		UploaderType: "manager",
 		IsPublic:     req.IsPublic,
 	}
 
@@ -155,7 +159,9 @@ func (c *ControllerV1) MediaDetail(ctx context.Context, req *v1.MediaDetailReq) 
 		return nil, err
 	}
 
-	return (*v1.MediaDetailRes)(media), nil
+	resp := v1.MediaDetailRes(media)
+
+	return &resp, nil
 }
 
 // MediaDelete 删除媒体文件
