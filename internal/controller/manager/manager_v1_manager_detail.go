@@ -47,7 +47,10 @@ func (c *ControllerV1) ManagerDetail(ctx context.Context, req *v1.ManagerDetailR
 		Avatar:     result.Avatar,
 		CreateTime: result.CreateTime,
 		UpdateTime: result.UpdateTime,
-		Role:       role,
+	}
+
+	for _, item := range role {
+		r.RoleIds = append(r.RoleIds, int(item.Id))
 	}
 
 	// 将管理员详细信息转换为响应

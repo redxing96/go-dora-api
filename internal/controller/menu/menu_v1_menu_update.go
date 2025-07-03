@@ -2,7 +2,7 @@
  * @Description: 更新路由权限
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 21:40:44
- * @LastEditTime: 2025-07-01 16:20:31
+ * @LastEditTime: 2025-07-02 18:47:12
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/controller/menu/menu_v1_menu_update.go
  */
@@ -27,6 +27,7 @@ func (c *ControllerV1) MenuUpdate(ctx context.Context, req *v1.MenuUpdateReq) (r
 		Sort:          req.Sort,          // 菜单排序
 		Component:     req.Component,     // 菜单组件
 		Title:         req.Title,         // 菜单标题
+		Name:          req.Name,          // 菜单名称
 		Icon:          req.Icon,          // 菜单图标
 		IconSvg:       req.IconSvg,       // 菜单图标svg
 		IsHidden:      req.IsHidden,      // 是否隐藏

@@ -13,6 +13,7 @@ import (
 	"go-dora-api/internal/common_return"
 	"go-dora-api/internal/dao"
 	"go-dora-api/internal/logger"
+	"go-dora-api/internal/model"
 	"go-dora-api/internal/model/entity"
 	"go-dora-api/internal/service"
 
@@ -20,9 +21,9 @@ import (
 )
 
 // 获取管理员菜单
-func (s *sSysMenu) GetManageMenu(ctx context.Context, managerID int64, menuType []int) (menuList []*entity.SysMenu, err error) {
+func (s *sSysMenu) GetManageMenu(ctx context.Context, in *model.GetManageMenuInput) (menuList []*entity.SysMenu, err error) {
 	// 根据用户ID获取到所有的角色IDs
-	roleIDs, err := service.SysRole().GetManagerRoleIDs(ctx, managerID)
+	roleIDs, err := service.SysRole().GetManagerRoleIDs(ctx, in.ManagerID)
 	if err != nil {
 		logger.SystemLogger.Errorf("获取管理员角色失败: %v", err)
 		err = gerror.NewCode(common_return.ErrorCode("", "get_manager_role_failed", 500))
@@ -38,8 +39,12 @@ func (s *sSysMenu) GetManageMenu(ctx context.Context, managerID int64, menuType 
 	// 获取菜单
 	query := dao.SysMenu.Ctx(ctx).WhereIn(dao.SysMenu.Columns().Id, menuIDs)
 
-	if len(menuType) > 0 {
-		query = query.WhereIn(dao.SysMenu.Columns().Type, menuType)
+	if len(in.MenuType) > 0 {
+		query = query.WhereIn(dao.SysMenu.Columns().Type, in.MenuType)
+	}
+
+	if in.Status != 0 {
+		query = query.Where(dao.SysMenu.Columns().Status, in.Status)
 	}
 
 	err = query.Scan(&menuList)

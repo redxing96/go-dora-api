@@ -14,20 +14,42 @@ import (
 	"github.com/spf13/cast"
 
 	v1 "go-dora-api/api/menu/v1"
+	"go-dora-api/internal/model"
 	"go-dora-api/internal/service"
 )
 
 // GetAuthMenu 获取权限菜单
 func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) (res *v1.GetAuthMenuRes, err error) {
 
-	// 获取管理菜单
-	menuList, err := service.SysMenu().GetManageMenu(ctx, cast.ToInt64(ctx.Value("manager_id")), []int{1, 4})
-	if err != nil {
-		return nil, err
-	}
+	isSuper := cast.ToInt(ctx.Value("is_super"))
 
-	// 转换为菜单项
-	menuItems := service.SysMenu().ConvertToMenuItems(menuList)
+	var menuItems []*model.MenuItem
+
+	if isSuper == 1 {
+		// 超级管理员获取所有菜单
+		menuList, _, err := service.SysMenu().GetAll(ctx, &model.GetAllSysMenuInput{
+			Type: []int{1, 4},
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		// 转换为菜单项
+		menuItems = service.SysMenu().ConvertToMenuItems(menuList)
+	} else {
+		// 获取管理菜单
+		menuList, err := service.SysMenu().GetManageMenu(ctx, &model.GetManageMenuInput{
+			ManagerID: cast.ToInt64(ctx.Value("manager_id")),
+			MenuType:  []int{1, 4},
+			Status:    1,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		// 转换为菜单项
+		menuItems = service.SysMenu().ConvertToMenuItems(menuList)
+	}
 
 	// 构建菜单树
 	menuTree := service.SysMenu().BuildMenuTree(menuItems, 0)

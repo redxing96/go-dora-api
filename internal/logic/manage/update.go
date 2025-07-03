@@ -62,8 +62,8 @@ func (s *sManage) Update(ctx context.Context, in *model.UpdateInput) (res *model
 
 	// 如果受影响的行数为0，说明管理员不存在，记录错误日志，并返回错误信息
 	if err != nil || rowsAffected == 0 {
-		logger.SystemLogger.Errorf("管理员不存在: %v", in.Id)
-		err = gerror.NewCode(common_return.ErrorCode("", "manage_not_found", 500))
+		logger.SystemLogger.Errorf("更新管理员信息失败: %v", in.Id)
+		err = gerror.NewCode(common_return.ErrorCode("", "manage_update_not_found", 500))
 		return
 	}
 

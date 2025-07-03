@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 10:26:14
- * @LastEditTime: 2025-07-01 17:42:29
+ * @LastEditTime: 2025-07-02 18:47:19
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/model/sys_menu.go
  */
@@ -44,11 +44,11 @@ type MenuItemMeta struct {
 	Icon          string `json:"icon" dc:"图标"`
 	IconSvg       string `json:"icon_svg" dc:"图标svg"`
 	Type          int    `json:"type" dc:"类型 1菜单,2接口,3按钮"`
-	IsHidden      bool   `json:"hidden" dc:"是否隐藏"`
-	IsKeepAlive   bool   `json:"keep_alive" dc:"是否缓存"`
+	IsHidden      int    `json:"is_hidden" dc:"是否隐藏"`
+	IsKeepAlive   int    `json:"is_keep_alive" dc:"是否缓存"`
 	ActiveMenu    string `json:"active_menu" dc:"激活菜单的path"`
-	IsLargeScreen bool   `json:"is_large_screen" dc:"是否仅在大屏显示"`
-	Link          string `json:"is_link" dc:"是否是外部链接"`
+	IsLargeScreen int    `json:"is_large_screen" dc:"是否仅在大屏显示"`
+	Link          string `json:"link" dc:"是否是外部链接"`
 }
 
 type MenuDeleteInput struct {
@@ -67,6 +67,7 @@ type MenuUpdateInput struct {
 	Sort          int    `json:"sort" dc:"排序"`
 	Component     string `json:"component" dc:"组件"`
 	Title         string `json:"title" dc:"标题"`
+	Name          string `json:"name" dc:"名称"`
 	Icon          string `json:"icon" dc:"图标"`
 	IconSvg       string `json:"icon_svg" dc:"图标svg"`
 	IsHidden      int    `json:"hidden" dc:"是否隐藏 2:否 1:是"`
@@ -103,4 +104,10 @@ type MenuAddInput struct {
 
 type MenuAddOutput struct {
 	Id int64 `json:"id" dc:"菜单ID"`
+}
+
+type GetManageMenuInput struct {
+	ManagerID int64
+	MenuType  []int
+	Status    int
 }

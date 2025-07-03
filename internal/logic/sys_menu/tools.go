@@ -29,10 +29,10 @@ func (s *sSysMenu) ConvertToMenuItems(sysMenus []*entity.SysMenu) []*model.MenuI
 				Title:         sysMenu.Title,
 				Icon:          sysMenu.Icon,
 				Type:          sysMenu.Type,
-				IsHidden:      sysMenu.IsHidden == 1,
-				IsKeepAlive:   sysMenu.IsKeepAlive == 1,
+				IsHidden:      sysMenu.IsHidden,
+				IsKeepAlive:   sysMenu.IsKeepAlive,
 				ActiveMenu:    sysMenu.ActiveMenu,
-				IsLargeScreen: sysMenu.IsLargeScreen == 1,
+				IsLargeScreen: sysMenu.IsLargeScreen,
 				Link:          sysMenu.Link,
 			},
 		}

@@ -12,6 +12,7 @@ import (
 	"context"
 	"go-dora-api/internal/common_return"
 	"go-dora-api/internal/logger"
+	"go-dora-api/internal/model"
 	"go-dora-api/internal/service"
 	"slices"
 	"sync"
@@ -49,7 +50,11 @@ func init() {
 // LoadUserPermissions 方法用于加载用户权限
 func (s *sPermissionCache) LoadUserPermissions(ctx context.Context, managerID int64) (err error) {
 	// 调用 service.SysMenu().GetManageMenu 方法获取管理员菜单
-	menuList, err := service.SysMenu().GetManageMenu(ctx, managerID, []int{})
+	menuList, err := service.SysMenu().GetManageMenu(ctx, &model.GetManageMenuInput{
+		ManagerID: managerID,
+		MenuType:  []int{},
+		Status:    1,
+	})
 	// 如果获取菜单失败，则记录错误日志，并返回错误
 	if err != nil {
 		logger.SystemLogger.Errorf("获取管理员菜单失败: %v", err)

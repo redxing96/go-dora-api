@@ -2,7 +2,7 @@
  * @Description:
  * @Author: redxing96@163.com
  * @Date: 2025-06-25 21:45:26
- * @LastEditTime: 2025-07-01 12:14:34
+ * @LastEditTime: 2025-07-02 18:47:04
  * @LastEditors: front end cabbage
  * @FilePath: /go-dora-api/internal/logic/sys_menu/update.go
  */
@@ -30,6 +30,7 @@ func (s *sSysMenu) Update(ctx context.Context, in *model.MenuUpdateInput) (out *
 		Sort:          in.Sort,          // 排序
 		Component:     in.Component,     // 组件
 		Title:         in.Title,         // 标题
+		Name:          in.Name,          // 名称
 		Icon:          in.Icon,          // 图标
 		IsHidden:      in.IsHidden,      // 是否隐藏
 		IsKeepAlive:   in.IsKeepAlive,   // 是否缓存

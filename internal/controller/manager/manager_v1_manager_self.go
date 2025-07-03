@@ -50,7 +50,10 @@ func (c *ControllerV1) ManagerSelf(ctx context.Context, req *v1.ManagerSelfReq) 
 		IsSuper:    result.IsSuper,
 		CreateTime: result.CreateTime,
 		UpdateTime: result.UpdateTime,
-		Role:       role,
+	}
+
+	for _, item := range role {
+		r.RoleIds = append(r.RoleIds, int(item.Id))
 	}
 
 	// 将管理员详细信息转换为响应

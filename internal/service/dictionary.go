@@ -18,6 +18,7 @@ type (
 		Delete(ctx context.Context, in *model.DictionaryDeleteInput) (out *model.DictionaryDeleteOutput, err error)
 		// GetAll函数用于获取所有字典数据
 		GetAll(ctx context.Context, in *model.DictionaryGetAllInput) (out []*model.DictionaryDetailOutput, err error)
+		// 获取字典类型
 		GetType(ctx context.Context) (out []string, err error)
 		// List函数用于查询字典列表
 		List(ctx context.Context, in *model.DictionaryListInput) (out []*model.DictionaryDetailOutput, total int, err error)

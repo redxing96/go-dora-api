@@ -37,8 +37,8 @@ func (s *sSysRole) Update(ctx context.Context, in *model.SysRoleUpdateInput) (ou
 	}
 
 	// 获取受影响的行数
-	rowsAffected, err := result.RowsAffected()
-	if err != nil || rowsAffected == 0 {
+	_, err = result.RowsAffected()
+	if err != nil {
 		// 记录错误日志
 		logger.SystemLogger.Errorf("更新角色失败: %v", err)
 		// 返回错误信息
