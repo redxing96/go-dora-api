@@ -21,16 +21,12 @@ import (
 func (c *ControllerV1) DictionaryList(ctx context.Context, req *v1.DictionaryListReq) (res *v1.DictionaryListRes, err error) {
 	// 创建一个新的字典列表输入对象
 	search := new(model.DictionaryListInput)
-	// 设置字典类型
-	search.Type = req.Type
-	// 设置字典名称模糊查询
-	search.LikeName = req.LikeName
-	// 设置字典编码模糊查询
-	search.LikeCode = req.LikeCode
 	// 设置字典状态
 	search.Status = req.Status
 	// 设置页码
 	search.Page = req.Page
+	// 搜索
+	search.Search = req.Search
 	// 如果页码小于等于0，则设置为默认页码
 	if search.Page <= 0 {
 		search.Page = consts.DEFAULT_PAGE

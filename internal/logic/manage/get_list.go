@@ -24,8 +24,12 @@ func (s *sManage) GetList(ctx context.Context, in *model.ManageListInput) (out [
 	query := dao.Manage.Ctx(ctx)
 	// 如果有搜索条件，则添加搜索条件
 	if in.Search != "" {
-		query = query.WhereLike("account|email|phone", "%"+in.Search+"%")
+		query = query.WhereLike(dao.Manage.Columns().Account, "%"+in.Search+"%").
+			WhereOrLike(dao.Manage.Columns().Email, "%"+in.Search+"%").
+			WhereOrLike(dao.Manage.Columns().Phone, "%"+in.Search+"%")
 	}
+	// 设置查询条件-禁用不查询
+	query = query.Where(dao.Manage.Columns().IsDelete, 2)
 	// 设置分页
 	query = query.Page(in.Page, in.PageSize)
 	// 查询并统计结果

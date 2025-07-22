@@ -105,6 +105,8 @@ var (
 				group.Middleware(service.Middleware().MiddlewareErrorHandler)
 				// 添加限流中间件
 				group.Middleware(service.Middleware().RateLimitMiddleware)
+				// 添加数据库日志中间件
+				group.Middleware(service.Middleware().MiddlewareDbLog)
 				// 添加SwaggerUI路由
 				if develop.Bool() {
 					group.GET("/swagger", func(r *ghttp.Request) {
@@ -148,6 +150,7 @@ var (
 					dictionary.NewV1(),
 					file.NewV1(),
 				)
+
 			})
 			s.Run()
 			return nil

@@ -96,6 +96,10 @@ func (s *sMiddleware) MiddlewareManageJWT(r *ghttp.Request) {
 		r.SetCtxVar("is_super", isSuper)
 	}
 
+	if acc, ok := data["account"]; ok {
+		r.SetCtxVar("account", acc)
+	}
+
 	// 执行下一个中间件
 	r.Middleware.Next()
 }

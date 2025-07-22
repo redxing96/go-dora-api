@@ -19,9 +19,6 @@ type DictionaryListReq struct {
 	Page     int    `json:"page" dc:"页码" d:"1"`
 	PageSize int    `json:"page_size" dc:"每页数量" d:"20"`
 	Search   string `json:"search" dc:"搜索关键词"`
-	Type     string `json:"type" dc:"字典类型"`
-	LikeName string `json:"like_name" dc:"模糊查询名称"`
-	LikeCode string `json:"like_code" dc:"模糊查询编码"`
 	Status   int    `json:"status" dc:"状态 1-正常 2-禁用"`
 }
 

@@ -11,7 +11,8 @@ package model
 // 获取所有菜单输入
 type GetAllSysMenuInput struct {
 	BaseInput
-	Type []int `json:"type" dc:"类型 1:菜单 2:接口 3:按钮 4:目录"`
+	Type   []int `json:"type" dc:"类型 1:菜单 2:接口 3:按钮 4:目录"`
+	Status int   `json:"status" dc:"状态 1-正常 2-禁用"`
 }
 
 // 获取所有菜单输出
@@ -74,7 +75,7 @@ type MenuUpdateInput struct {
 	IsKeepAlive   int    `json:"keep_alive" dc:"是否缓存 2:否 1:是"`
 	ActiveMenu    string `json:"active_menu" dc:"激活菜单"`
 	IsLargeScreen int    `json:"is_large_screen" dc:"是否大屏 2:否 1:是"`
-	Link          int    `json:"is_link" dc:"是否链接 2:否 1:是"`
+	Link          string `json:"is_link" dc:"是否链接 2:否 1:是"`
 	Remark        string `json:"remark" dc:"备注"`
 	Status        int    `json:"status" dc:"状态 1-正常 2-禁用"`
 }
@@ -110,4 +111,12 @@ type GetManageMenuInput struct {
 	ManagerID int64
 	MenuType  []int
 	Status    int
+}
+
+type BtnList struct {
+	Id        int64  `json:"id" dc:"菜单ID"`
+	Pid       int64  `json:"pid" dc:"父级ID"`
+	Name      string `json:"name" dc:"名称"`
+	Path      string `json:"path" dc:"路径"`
+	Component string `json:"component" dc:"组件"`
 }

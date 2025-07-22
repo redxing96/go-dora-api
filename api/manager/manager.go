@@ -12,6 +12,7 @@ import (
 
 type IManagerV1 interface {
 	ManagerAdd(ctx context.Context, req *v1.ManagerAddReq) (res *v1.ManagerAddRes, err error)
+	ManagerDelete(ctx context.Context, req *v1.ManagerDeleteReq) (res *v1.ManagerDeleteRes, err error)
 	ManagerDetail(ctx context.Context, req *v1.ManagerDetailReq) (res *v1.ManagerDetailRes, err error)
 	ManagerSelf(ctx context.Context, req *v1.ManagerSelfReq) (res *v1.ManagerSelfRes, err error)
 	ManageList(ctx context.Context, req *v1.ManageListReq) (res *v1.ManageListRes, err error)

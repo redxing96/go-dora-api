@@ -15,7 +15,7 @@ import (
 )
 
 type ManagerUpdateReq struct {
-	g.Meta   `path:"/v1/manager/update/" method:"post" tags:"管理员管理" summary:"修改自己的详情信息" security:"api_key"`
+	g.Meta   `path:"/v1/manager/update/" method:"post" tags:"管理员管理" summary:"修改详情信息" security:"api_key"`
 	Id       int    `d:"" json:"id" dc:"管理员ID"`
 	Account  string `d:"" json:"account" dc:"管理员账号"`
 	Password string `d:"" json:"password" dc:"管理员密码"`

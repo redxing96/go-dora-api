@@ -24,11 +24,13 @@ func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) 
 	isSuper := cast.ToInt(ctx.Value("is_super"))
 
 	var menuItems []*model.MenuItem
+	var btnList []string
 
 	if isSuper == 1 {
 		// 超级管理员获取所有菜单
 		menuList, _, err := service.SysMenu().GetAll(ctx, &model.GetAllSysMenuInput{
-			Type: []int{1, 4},
+			Type:   []int{1, 4},
+			Status: 1,
 		})
 		if err != nil {
 			return nil, err
@@ -36,6 +38,18 @@ func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) 
 
 		// 转换为菜单项
 		menuItems = service.SysMenu().ConvertToMenuItems(menuList)
+
+		btns, _, err := service.SysMenu().GetAll(ctx, &model.GetAllSysMenuInput{
+			Type:   []int{3},
+			Status: 1,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		for _, item := range btns {
+			btnList = append(btnList, item.Component)
+		}
 	} else {
 		// 获取管理菜单
 		menuList, err := service.SysMenu().GetManageMenu(ctx, &model.GetManageMenuInput{
@@ -49,6 +63,19 @@ func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) 
 
 		// 转换为菜单项
 		menuItems = service.SysMenu().ConvertToMenuItems(menuList)
+
+		btns, err := service.SysMenu().GetManageMenu(ctx, &model.GetManageMenuInput{
+			ManagerID: cast.ToInt64(ctx.Value("manager_id")),
+			MenuType:  []int{3},
+			Status:    1,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		for _, item := range btns {
+			btnList = append(btnList, item.Component)
+		}
 	}
 
 	// 构建菜单树
@@ -60,6 +87,7 @@ func (c *ControllerV1) GetAuthMenu(ctx context.Context, req *v1.GetAuthMenuReq) 
 	// 构建响应
 	resp := v1.GetAuthMenuRes{
 		MenuList: menuTree,
+		BtnList:  btnList,
 	}
 
 	return &resp, nil

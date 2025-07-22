@@ -8,6 +8,7 @@ package service
 import (
 	"context"
 	"go-dora-api/internal/model"
+	"go-dora-api/internal/model/entity"
 )
 
 type (
@@ -15,7 +16,7 @@ type (
 		// 创建操作日志
 		Create(ctx context.Context, in *model.OperationLogCreateInput) (out *model.OperationLogCreateOutput, err error)
 		// 获取操作日志列表
-		GetList(ctx context.Context, in *model.OperationLogListInput) (out *model.OperationLogListOutput, err error)
+		GetList(ctx context.Context, in *model.OperationLogListInput) (out []*entity.OperationLog, total int, err error)
 		// 获取操作日志详情
 		GetDetail(ctx context.Context, id int64) (out *model.OperationLogDetailOutput, err error)
 		// 删除操作日志

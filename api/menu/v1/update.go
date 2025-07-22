@@ -26,7 +26,7 @@ type MenuUpdateReq struct {
 	IsKeepAlive   int    `d:"2" json:"is_keep_alive" dc:"是否缓存 2:否 1:是"`
 	ActiveMenu    string `d:"" json:"active_menu" dc:"激活菜单"`
 	IsLargeScreen int    `d:"2" json:"is_large_screen" dc:"是否大屏 2:否 1:是"`
-	Link          int    `d:"" json:"link" dc:"是否链接 2:否 1:是"`
+	Link          string `d:"" json:"link" dc:"是否链接 2:否 1:是"`
 	Remark        string `d:"" json:"remark" dc:"备注"`
 	Status        int    `v:"required|integer" d:"0" json:"status" dc:"状态 1-正常 2-禁用"`
 }

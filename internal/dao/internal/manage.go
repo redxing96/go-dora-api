@@ -28,6 +28,7 @@ type ManageColumns struct {
 	Avatar     string // 头像
 	Status     string // 状态 0-初始化 1-正常 2-冻结
 	IsSuper    string // 是否超管 1-是
+	IsDelete   string // 是否删除 1-是 2-否
 	CreateTime string // 创建时间
 	UpdateTime string // 修改时间
 }
@@ -42,6 +43,7 @@ var manageColumns = ManageColumns{
 	Avatar:     "avatar",
 	Status:     "status",
 	IsSuper:    "is_super",
+	IsDelete:   "is_delete",
 	CreateTime: "create_time",
 	UpdateTime: "update_time",
 }

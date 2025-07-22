@@ -109,7 +109,7 @@ func (c *ControllerV1) MediaUpload(ctx context.Context, req *v1.MediaUploadReq) 
 		Sha1Hash:     "", // 将在服务层计算
 		UploaderId:   managerId,
 		UploaderType: "manager",
-		IsPublic:     req.IsPublic,
+		IsPublic:     cast.ToInt(req.IsPublic),
 	}
 
 	// 调用服务层上传文件

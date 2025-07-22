@@ -32,5 +32,5 @@ var (
 	UPLOADS_PATH = "resource/public/uploads/file"
 
 	// 基础URL
-	BaseUri = "http://192.168.10.180:4545"
+	BaseUri = "http://192.168.10.89:4545"
 )

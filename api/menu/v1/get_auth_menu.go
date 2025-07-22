@@ -20,4 +20,5 @@ type GetAuthMenuReq struct {
 
 type GetAuthMenuRes struct {
 	MenuList []*model.MenuItem `json:"menu_list"`
+	BtnList  []string          `json:"btn_list"`
 }

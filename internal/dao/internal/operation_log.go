@@ -20,7 +20,7 @@ type OperationLogDao struct {
 
 // OperationLogColumns defines and stores column names for the table operation_log.
 type OperationLogColumns struct {
-	Id            string //
+	Id            string // 日志ID
 	UserId        string // 操作用户ID
 	Username      string // 操作用户名
 	Operation     string // 操作类型

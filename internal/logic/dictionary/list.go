@@ -14,18 +14,13 @@ import (
 func (s *sDictionary) List(ctx context.Context, in *model.DictionaryListInput) (out []*model.DictionaryDetailOutput, total int, err error) {
 	// 创建查询对象
 	query := dao.Dictionary.Ctx(ctx)
-	// 如果输入参数中的类型不为空，则添加查询条件
-	if in.Type != "" {
-		query = query.Where(dao.Dictionary.Columns().Type, in.Type)
+
+	if in.Search != "" {
+		query = query.WhereLike(dao.Dictionary.Columns().Type, "%"+in.Search+"%").
+			WhereOrLike(dao.Dictionary.Columns().Name, "%"+in.Search+"%").
+			WhereOrLike(dao.Dictionary.Columns().Code, "%"+in.Search+"%")
 	}
-	// 如果输入参数中的名称不为空，则添加查询条件
-	if in.LikeName != "" {
-		query = query.Where(dao.Dictionary.Columns().Name, "like", "%"+in.LikeName+"%")
-	}
-	// 如果输入参数中的编码不为空，则添加查询条件
-	if in.LikeCode != "" {
-		query = query.Where(dao.Dictionary.Columns().Code, "like", "%"+in.LikeCode+"%")
-	}
+
 	// 如果输入参数中的状态不为0，则添加查询条件
 	if in.Status != 0 {
 		query = query.Where(dao.Dictionary.Columns().Status, in.Status)

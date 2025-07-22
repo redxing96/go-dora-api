@@ -20,11 +20,12 @@ import (
 func (c *ControllerV1) ManagerUpdate(ctx context.Context, req *v1.ManagerUpdateReq) (res *v1.ManagerUpdateRes, err error) {
 	// 调用service.Manage().Update函数更新管理员的个人信息
 	result, err := service.Manage().Update(ctx, &model.UpdateInput{
-		Id:      req.Id,      // 管理员ID
-		Account: req.Account, // 管理员账号
-		Email:   req.Email,   // 管理员邮箱
-		Phone:   req.Phone,   // 管理员电话
-		Avatar:  req.Avatar,  // 管理员头像
+		Id:       req.Id,      // 管理员ID
+		Account:  req.Account, // 管理员账号
+		Password: req.Password,
+		Email:    req.Email,  // 管理员邮箱
+		Phone:    req.Phone,  // 管理员电话
+		Avatar:   req.Avatar, // 管理员头像
 	})
 
 	// 如果更新失败，则返回错误

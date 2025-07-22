@@ -1,29 +1,31 @@
-/*
- * @Description: 操作日志DO模型
- * @Author: redxing96@163.com
- * @Date: 2025-07-02 10:00:00
- * @LastEditTime: 2025-07-02 10:00:00
- * @LastEditors: front end cabbage
- * @FilePath: /go-dora-api/internal/model/do/operation_log.go
- */
+// =================================================================================
+// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
+// =================================================================================
+
 package do
 
-// 操作日志DO模型
+import (
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+)
+
+// OperationLog is the golang structure of table operation_log for DAO operations like Where/Data.
 type OperationLog struct {
-	Id            interface{} `json:"id"            description:"日志ID"`
-	UserId        interface{} `json:"userId"        description:"操作用户ID"`
-	Username      interface{} `json:"username"      description:"操作用户名"`
-	Operation     interface{} `json:"operation"     description:"操作类型"`
-	Module        interface{} `json:"module"        description:"操作模块"`
-	Description   interface{} `json:"description"   description:"操作描述"`
-	RequestMethod interface{} `json:"requestMethod" description:"请求方法"`
-	RequestUrl    interface{} `json:"requestUrl"    description:"请求URL"`
-	RequestParams interface{} `json:"requestParams" description:"请求参数"`
-	ResponseData  interface{} `json:"responseData"  description:"响应数据"`
-	IpAddress     interface{} `json:"ipAddress"     description:"IP地址"`
-	UserAgent     interface{} `json:"userAgent"     description:"用户代理"`
-	Status        interface{} `json:"status"        description:"操作状态 1-成功 2-失败"`
-	ErrorMessage  interface{} `json:"errorMessage"  description:"错误信息"`
-	ExecutionTime interface{} `json:"executionTime" description:"执行时间(毫秒)"`
-	CreateTime    interface{} `json:"createTime"    description:"创建时间"`
+	g.Meta        `orm:"table:operation_log, do:true"`
+	Id            interface{} // 日志ID
+	UserId        interface{} // 操作用户ID
+	Username      interface{} // 操作用户名
+	Operation     interface{} // 操作类型
+	Module        interface{} // 操作模块
+	Description   interface{} // 操作描述
+	RequestMethod interface{} // 请求方法
+	RequestUrl    interface{} // 请求URL
+	RequestParams interface{} // 请求参数
+	ResponseData  interface{} // 响应数据
+	IpAddress     interface{} // IP地址
+	UserAgent     interface{} // 用户代理
+	Status        interface{} // 操作状态 1-成功 2-失败
+	ErrorMessage  interface{} // 错误信息
+	ExecutionTime interface{} // 执行时间(毫秒)
+	CreateTime    *gtime.Time // 创建时间
 }

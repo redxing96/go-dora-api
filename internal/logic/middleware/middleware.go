@@ -17,7 +17,9 @@ import (
 	"go-dora-api/internal/service"
 	"net/http"
 	"strings"
+	"time"
 
+	"go-dora-api/utility/jwt"
 	logger2 "go-dora-api/utility/logger"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -26,6 +28,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/spf13/cast"
 
 	common_return2 "go-dora-api/utility/common_return"
 )
@@ -54,6 +57,12 @@ func (s *sMiddleware) MiddlewareErrorHandler(r *ghttp.Request) {
 // 跨域中间件
 func (s *sMiddleware) MiddlewareCORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
+	def := r.Response.DefaultCORSOptions()
+	if def.ExposeHeaders != "" {
+		def.ExposeHeaders = def.ExposeHeaders + ",RefreshToken"
+	}
+	def.ExposeHeaders = "RefreshToken"
+	r.Response.CORS(def)
 	r.Middleware.Next()
 }
 
@@ -93,6 +102,17 @@ func (s *sMiddleware) MiddlewareAccessLog(r *ghttp.Request) {
 		logger2.LogField{Key: "stack", Value: stackContent},
 	)
 
+}
+
+// 写入数据库日志中间件
+func (s *sMiddleware) MiddlewareDbLog(r *ghttp.Request) {
+	startTime := gtime.TimestampMilli()
+	r.Middleware.Next()
+
+	var (
+		err     = r.GetError()
+		endTime = gtime.TimestampMilli()
+	)
 	// ====== 操作日志写入数据库 ======
 	// 获取用户信息（如有登录）
 	// userId := int64(0)
@@ -104,61 +124,64 @@ func (s *sMiddleware) MiddlewareAccessLog(r *ghttp.Request) {
 	// 	username = v.String()
 	// }
 
-	// // 操作类型
-	// operation := r.Method
-	// // 操作模块（可用路由前缀或首段）
-	// module := ""
-	// urlPath := r.URL.Path
-	// if urlPath != "" {
-	// 	parts := gstr.SplitAndTrim(urlPath, "/")
-	// 	if len(parts) > 1 {
-	// 		module = parts[1]
-	// 	} else if len(parts) == 1 {
-	// 		module = parts[0]
-	// 	}
-	// }
-	// // 操作描述
-	// description := r.Method + " " + r.URL.String()
-	// // 请求参数
-	// params := r.GetMap()
-	// // 响应内容
-	// response := r.Response.BufferString()
-	// // 状态
-	// status := 1
-	// if r.Response.Status >= 400 {
-	// 	status = 2
-	// }
-	// // 错误信息
-	// errMsg := ""
-	// if err != nil {
-	// 	errMsg = err.Error()
-	// }
-	// // 执行时间
-	// executionTime := int(endTime - startTime)
+	userId := r.GetCtxVar("manager_id").Int64()
+	username := r.GetCtxVar("account").String()
 
-	// // 组装请求信息
-	// requestInfo := map[string]interface{}{
-	// 	"method":    r.Method,
-	// 	"url":       r.URL.String(),
-	// 	"params":    params,
-	// 	"response":  response,
-	// 	"ip":        r.GetClientIp(),
-	// 	"userAgent": r.UserAgent(),
-	// }
+	// 操作类型
+	operation := r.Method
+	// 操作模块（可用路由前缀或首段）
+	module := ""
+	urlPath := r.URL.Path
+	if urlPath != "" {
+		parts := gstr.SplitAndTrim(urlPath, "/")
+		if len(parts) > 1 {
+			module = parts[1]
+		} else if len(parts) == 1 {
+			module = parts[0]
+		}
+	}
+	// 操作描述
+	description := r.Method + " " + r.URL.String()
+	// 请求参数
+	params := r.GetMap()
+	// 响应内容
+	response := r.Response.BufferString()
+	// 状态
+	status := 1
+	if r.Response.Status >= 400 {
+		status = 2
+	}
+	// 错误信息
+	errMsg := ""
+	if err != nil {
+		errMsg = err.Error()
+	}
+	// 执行时间
+	executionTime := int(endTime - startTime)
+
+	// 组装请求信息
+	requestInfo := map[string]interface{}{
+		"method":    r.Method,
+		"url":       r.URL.String(),
+		"params":    params,
+		"response":  response,
+		"ip":        r.GetClientIp(),
+		"userAgent": r.UserAgent(),
+	}
 
 	// 写入操作日志表
-	// _ = service.OperationLog().RecordOperation(
-	// 	r.GetCtx(),
-	// 	userId,
-	// 	username,
-	// 	operation,
-	// 	module,
-	// 	description,
-	// 	status,
-	// 	errMsg,
-	// 	executionTime,
-	// 	requestInfo,
-	// )
+	_ = service.OperationLog().RecordOperation(
+		r.GetCtx(),
+		userId,
+		username,
+		operation,
+		module,
+		description,
+		status,
+		errMsg,
+		executionTime,
+		requestInfo,
+	)
 }
 
 // 全局响应中间件
@@ -238,6 +261,25 @@ func (s *sMiddleware) MiddlewareHandlerResponse(r *ghttp.Request) {
 		if bussDetail, ok := code.Detail().(common_return2.BussDetail); ok {
 			errorMsg = fmt.Sprintf(errorMsg, bussDetail.Args...)
 			errorDetail = bussDetail.Detail
+		}
+	}
+
+	// 判断token是否过期
+	token := cast.ToString(r.GetCtxVar("token"))
+	if token != "" {
+		tokenData, err := jwt.JWT.Auth(context.TODO(), token)
+		if err == nil {
+			if exp, ok := tokenData["exp"].(float64); ok {
+				if exp < float64(gtime.Now().Add(-30*time.Minute).Unix()) {
+					// token过期，生成新的，并放回头部
+					token, _ := jwt.JWT.Builder(context.TODO(), map[string]interface{}{
+						"manager_id": tokenData["manager_id"],
+						"is_super":   tokenData["is_super"],
+						"account":    tokenData["account"],
+					})
+					r.Response.Header().Add("RefreshToken", token)
+				}
+			}
 		}
 	}
 

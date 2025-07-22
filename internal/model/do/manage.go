@@ -20,6 +20,7 @@ type Manage struct {
 	Avatar     interface{} // 头像
 	Status     interface{} // 状态 0-初始化 1-正常 2-冻结
 	IsSuper    interface{} // 是否超管 1-是
+	IsDelete   interface{} // 是否删除 1-是 2-否
 	CreateTime *gtime.Time // 创建时间
 	UpdateTime *gtime.Time // 修改时间
 }

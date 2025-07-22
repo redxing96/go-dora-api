@@ -16,6 +16,7 @@ import (
 	"go-dora-api/internal/logger"
 	"go-dora-api/internal/model"
 	"go-dora-api/internal/model/do"
+	"go-dora-api/internal/model/entity"
 	"go-dora-api/internal/service"
 
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -65,62 +66,51 @@ func (s *sOperationLog) Create(ctx context.Context, in *model.OperationLogCreate
 }
 
 // 获取操作日志列表
-func (s *sOperationLog) GetList(ctx context.Context, in *model.OperationLogListInput) (out *model.OperationLogListOutput, err error) {
-	// model := dao.OperationLog.Ctx(ctx)
+func (s *sOperationLog) GetList(ctx context.Context, in *model.OperationLogListInput) (out []*entity.OperationLog, total int, err error) {
+	model := dao.OperationLog.Ctx(ctx)
 
 	// 添加查询条件
-	// if in.UserId > 0 {
-	// 	model = model.Where(dao.OperationLog.Columns().UserId, in.UserId)
-	// }
-	// if in.Username != "" {
-	// 	model = model.WhereLike(dao.OperationLog.Columns().Username, "%"+in.Username+"%")
-	// }
-	// if in.Operation != "" {
-	// 	model = model.Where(dao.OperationLog.Columns().Operation, in.Operation)
-	// }
-	// if in.Module != "" {
-	// 	model = model.Where(dao.OperationLog.Columns().Module, in.Module)
-	// }
-	// if in.Status > 0 {
-	// 	model = model.Where(dao.OperationLog.Columns().Status, in.Status)
-	// }
-	// if in.StartTime != "" {
-	// 	model = model.WhereGTE(dao.OperationLog.Columns().CreateTime, in.StartTime)
-	// }
-	// if in.EndTime != "" {
-	// 	model = model.WhereLTE(dao.OperationLog.Columns().CreateTime, in.EndTime)
-	// }
-	// if in.Keyword != "" {
-	// 	model = model.WhereLike(dao.OperationLog.Columns().Description, "%"+in.Keyword+"%").
-	// 		WhereOrLike(dao.OperationLog.Columns().RequestUrl, "%"+in.Keyword+"%")
-	// }
+	if in.UserId > 0 {
+		model = model.Where(dao.OperationLog.Columns().UserId, in.UserId)
+	}
+	if in.Username != "" {
+		model = model.WhereLike(dao.OperationLog.Columns().Username, "%"+in.Username+"%")
+	}
+	if in.Operation != "" {
+		model = model.Where(dao.OperationLog.Columns().Operation, in.Operation)
+	}
+	if in.Module != "" {
+		model = model.Where(dao.OperationLog.Columns().Module, in.Module)
+	}
+	if in.Status > 0 {
+		model = model.Where(dao.OperationLog.Columns().Status, in.Status)
+	}
+	if in.StartTime != "" {
+		model = model.WhereGTE(dao.OperationLog.Columns().CreateTime, in.StartTime)
+	}
+	if in.EndTime != "" {
+		model = model.WhereLTE(dao.OperationLog.Columns().CreateTime, in.EndTime)
+	}
+	if in.Keyword != "" {
+		model = model.WhereLike(dao.OperationLog.Columns().Description, "%"+in.Keyword+"%").
+			WhereOrLike(dao.OperationLog.Columns().RequestUrl, "%"+in.Keyword+"%")
+	}
 
-	// // 获取总数
-	// total, err := model.Count()
-	// if err != nil {
-	// 	logger.SystemLogger.Errorf("获取操作日志列表总数失败: %v", err)
-	// 	err = gerror.NewCode(common_return.ErrorCode("", "get_operation_log_total_failed", 500))
-	// 	return
-	// }
+	// 获取总数
+	total, err = model.Count()
+	if err != nil {
+		logger.SystemLogger.Errorf("获取操作日志列表总数失败: %v", err)
+		err = gerror.NewCode(common_return.ErrorCode("", "get_operation_log_total_failed", 500))
+		return
+	}
 
-	// // 分页查询
-	// var logList []*model.OperationLogListOutput
-	// err = model.Page(in.Page, in.PageSize).OrderDesc(dao.OperationLog.Columns().CreateTime).Scan(&logList)
-	// if err != nil {
-	// 	logger.SystemLogger.Errorf("获取操作日志列表失败: %v", err)
-	// 	err = gerror.NewCode(common_return.ErrorCode("", "get_operation_log_list_failed", 500))
-	// 	return
-	// }
-
-	// out = &model.OperationLogListOutput{
-	// 	List:  make([]*model.OperationLogListOutput, 0),
-	// 	Total: total,
-	// }
-
-	// // 转换数据格式
-	// for _, log := range logList {
-	// 	out.List = append(out.List, log)
-	// }
+	// 分页查询
+	err = model.Page(in.Page, in.PageSize).OrderDesc(dao.OperationLog.Columns().CreateTime).Scan(&out)
+	if err != nil {
+		logger.SystemLogger.Errorf("获取操作日志列表失败: %v", err)
+		err = gerror.NewCode(common_return.ErrorCode("", "get_operation_log_list_failed", 500))
+		return
+	}
 
 	return
 }

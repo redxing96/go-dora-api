@@ -21,6 +21,8 @@ type (
 		MiddlewareCORS(r *ghttp.Request)
 		// 访问日志中间件
 		MiddlewareAccessLog(r *ghttp.Request)
+		// 写入数据库日志中间件
+		MiddlewareDbLog(r *ghttp.Request)
 		// 全局响应中间件
 		MiddlewareHandlerResponse(r *ghttp.Request)
 		// MiddlewarePermission 函数用于检查用户是否有权限访问某个路径

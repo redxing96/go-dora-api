@@ -19,7 +19,7 @@ import (
 type MediaUploadReq struct {
 	g.Meta   `path:"/v1/media/upload" tags:"媒体文件" method:"post" mime:"multipart/form-data" summary:"上传媒体文件" security:"api_key"`
 	File     *ghttp.UploadFile `json:"file" type:"file" dc:"选择上传的文件" v:"required#请选择要上传的文件"`
-	IsPublic int               `json:"isPublic" dc:"是否公开 0-私有 1-公开" d:"0"`
+	IsPublic string            `json:"isPublic" dc:"是否公开 0-私有 1-公开" d:"0"`
 }
 
 // MediaUploadRes 媒体文件上传响应

@@ -50,6 +50,7 @@ func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.Log
 	token, err := jwt.JWT.Builder(ctx, map[string]any{
 		"manager_id": detail.Id,
 		"is_super":   detail.IsSuper,
+		"account":    detail.Account,
 	})
 	if err != nil {
 		return nil, err

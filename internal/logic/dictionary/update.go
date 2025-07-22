@@ -23,9 +23,7 @@ import (
 // 更新字典
 func (s *sDictionary) Update(ctx context.Context, in *model.DictionaryUpdateInput) (out *model.DictionaryUpdateOutput, err error) {
 	// 创建查询对象
-	query := dao.Dictionary.Ctx(ctx).Where(dao.Dictionary.Columns().Id, in.Id)
-	// 更新字典数据
-	query.Data(do.Dictionary{
+	query := dao.Dictionary.Ctx(ctx).Where(dao.Dictionary.Columns().Id, in.Id).Data(do.Dictionary{
 		Name:       in.Name,
 		Code:       in.Code,
 		Type:       in.Type,

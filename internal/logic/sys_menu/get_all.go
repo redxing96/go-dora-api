@@ -35,6 +35,10 @@ func (s *sSysMenu) GetAll(ctx context.Context, in *model.GetAllSysMenuInput) (re
 		query = query.WhereIn(dao.SysMenu.Columns().Type, in.Type)
 	}
 
+	if in.Status > 0 {
+		query = query.WhereIn(dao.SysMenu.Columns().Status, in.Status)
+	}
+
 	query.Order(dao.SysMenu.Columns().Sort + " desc")
 
 	// 从数据库中查询所有系统菜单

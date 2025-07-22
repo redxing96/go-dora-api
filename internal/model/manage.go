@@ -44,20 +44,27 @@ type ManagerDetailRes struct {
 }
 
 type UpdateInput struct {
+	Ids      []int  `json:"ids" dc:"管理员IDs"`
 	Id       int    `json:"id" dc:"管理员ID"`
 	Account  string `json:"account" dc:"管理员账号"`
 	Password string `json:"password" dc:"管理员密码"`
 	Email    string `json:"email" dc:"电子邮箱"`
 	Phone    string `json:"phone" dc:"电话号码"`
 	Avatar   string `json:"avatar" dc:"头像"`
+	IsDelete int    `json:"is_delete" dc:"是否删除 1-是 2-否"`
 }
 
 type UpdateOutput struct {
-	Id      int    `json:"id" dc:"管理员ID"`
-	Account string `json:"account" dc:"管理员账号"`
-	Email   string `json:"email" dc:"电子邮箱"`
-	Phone   string `json:"phone" dc:"电话号码"`
-	Avatar  string `json:"avatar" dc:"头像"`
+	Id         int         `json:"id" dc:"管理员ID"`
+	Account    string      `json:"account" dc:"管理员账号"`
+	Email      string      `json:"email" dc:"电子邮箱"`
+	Phone      string      `json:"phone" dc:"电话号码"`
+	Avatar     string      `json:"avatar" dc:"头像"`
+	Status     int         `json:"status" dc:"管理员状态 0-初始化 1-正常 2-冻结"`
+	UpdateTime *gtime.Time `json:"update_time" dc:"更新时间"`
+	CreateTime *gtime.Time `json:"create_time" dc:"创建时间"`
+	RoleIds    []int       `json:"role_ids" dc:"角色IDs"`
+	IsSuper    int         `json:"is_super" dc:"是否超管 1-是"`
 }
 
 type ManagerAddInput struct {
